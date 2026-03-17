@@ -1,0 +1,178 @@
+import React from 'react';
+import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { Link } from 'react-router-dom';
+
+export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onNavigate }) {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { scrollY } = useScroll();
+  
+  const navBackground = useTransform(
+    scrollY,
+    [0, 100],
+    ['rgba(10, 5, 2, 0.92)', 'rgba(10, 5, 2, 0.92)']
+  );
+
+  const navPadding = useTransform(
+    scrollY,
+    [0, 100],
+    ['2rem', '1rem']
+  );
+
+  const navBorder = useTransform(
+    scrollY,
+    [0, 100],
+    ['rgba(255, 255, 255, 0.12)', 'rgba(255, 255, 255, 0.12)']
+  );
+
+  const handleNavClick = (path) => {
+    onNavigate(path);
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <motion.nav 
+      style={{ 
+        backgroundColor: navBackground,
+        paddingTop: navPadding,
+        paddingBottom: navPadding,
+        borderColor: navBorder
+      }}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b backdrop-blur-md"
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex justify-between items-center">
+          {/* Logo Section - Minimalist */}
+          <Link 
+            className="flex items-center cursor-pointer group" 
+            to="/"
+            onClick={() => handleNavClick('home')}
+          >
+            <div className="relative">
+              <div className="w-10 h-10 border border-[#FF6F00] rounded-full flex items-center justify-center text-[#FF6F00] font-serif italic text-lg mr-3 group-hover:bg-[#FF6F00] group-hover:text-white transition-all duration-500">
+                VP
+              </div>
+              <div className="absolute -inset-1 border border-[#FF6F00]/20 rounded-full scale-0 group-hover:scale-110 transition-transform duration-500" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-serif tracking-[0.2em] uppercase text-white leading-none">Vaidik</span>
+              <span className="text-[10px] tracking-[0.4em] uppercase text-[#FF9933] font-bold mt-1">Pooja</span>
+            </div>
+          </Link>
+
+          {/* Navigation Links - Editorial Style */}
+          <div className="hidden lg:flex items-center space-x-14 ml-10">
+            {[
+              { name: 'Home', path: 'home' },
+              { name: 'Sacred Items', path: 'items' },
+              { name: 'Ritual Kits', path: 'kits' },
+              { name: 'Book Pandit', path: 'pandits' },
+              { name: 'Horoscope', path: 'horoscope' },
+              { name: 'Panchang', path: 'panchang' },
+              { name: 'Contact', path: 'contact' },
+            ].map((link) => (
+              <Link 
+                key={link.path}
+                to={link.path === 'home' ? '/' : `/${link.path}`} 
+                onClick={() => handleNavClick(link.path)} 
+                className="relative text-[11px] uppercase tracking-[0.3em] font-bold text-white/70 hover:text-[#FF9933] transition-colors group"
+              >
+                {link.name}
+                <span className="absolute -bottom-2 left-0 w-0 h-px bg-[#FF9933] transition-all duration-500 group-hover:w-full" />
+              </Link>
+            ))}
+          </div>
+
+          {/* Action Icons - Clean Utility */}
+          <div className="flex items-center space-x-7">
+            <button className="p-2 text-white/50 hover:text-[#FF9933] transition-colors">
+              <Search size={18} />
+            </button>
+            
+            <button 
+              onClick={onOpenAuth}
+              className="flex items-center space-x-3 p-2 text-white/50 hover:text-[#FF9933] transition-colors group"
+            >
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#FF9933]/50 transition-colors">
+                <User size={16} />
+              </div>
+            </button>
+
+            <button 
+              onClick={onOpenCart}
+              className="relative p-2 text-white/50 hover:text-[#FF9933] transition-colors group"
+            >
+              <ShoppingCart size={18} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#FF6F00] text-white text-[8px] font-bold w-4 h-4 flex items-center justify-center rounded-full shadow-lg">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            <button 
+              className="lg:hidden p-2 text-white/50 hover:text-[#FF9933]"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu - Immersive Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-[#0a0502] z-60 lg:hidden flex flex-col justify-center items-center"
+          >
+            <button 
+              className="absolute top-8 right-8 p-4 text-white/50 hover:text-[#FF9933]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <X size={32} />
+            </button>
+            
+            <div className="flex flex-col items-center space-y-8">
+              {[
+                { name: 'Home', path: 'home' },
+                { name: 'Sacred Items', path: 'items' },
+                { name: 'Ritual Kits', path: 'kits' },
+                { name: 'Book Pandit', path: 'pandits' },
+                { name: 'Horoscope', path: 'horoscope' },
+                { name: 'Panchang', path: 'panchang' },
+                { name: 'Contact', path: 'contact' },
+              ].map((link, i) => (
+                <motion.div 
+                  key={link.path}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="text-4xl font-serif italic text-white hover:text-[#FF9933] transition-colors"
+                >
+                  <Link 
+                    to={link.path === 'home' ? '/' : `/${link.path}`} 
+                    onClick={() => handleNavClick(link.path)}
+                    className="block"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="absolute bottom-12 flex space-x-8 text-white/30 text-[10px] uppercase tracking-[0.4em]">
+              <span>Instagram</span>
+              <span>Facebook</span>
+              <span>Twitter</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
+  );
+}

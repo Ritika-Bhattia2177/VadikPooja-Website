@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": false,
+    "isolatedModules": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "typeAcquisition": {
+    "enable": true,
+    "include": ["react", "react-dom"]
+  },
+  "include": [
+    "src/**/*",
+    "server/**/*",
+    "server.js",
+    "vite.config.js"
+  ]
+}
