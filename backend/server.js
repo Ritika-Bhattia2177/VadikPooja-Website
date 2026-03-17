@@ -28,12 +28,18 @@ async function startServer() {
   app.use('/api/bookings', bookingRoutes);
   app.use('/api/orders', orderRoutes);
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`API server running on http://localhost:${PORT}`);
-  });
+  if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`API server running on http://localhost:${PORT}`);
+    });
+  }
+
+  return app;
 }
 
-startServer().catch((err) => {
-  console.error('Failed to start server', err);
-  process.exit(1);
-});
+const appPromise = startServer();
+
+export default async function (req, res) {
+  const app = await appPromise;
+  return app(req, res);
+}
