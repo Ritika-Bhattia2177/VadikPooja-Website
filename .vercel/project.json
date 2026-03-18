@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_dxjsQdSMMj6PlWLVfFPN0AlnEyPB",
+  "orgId": "team_lo8LtPWKLvcnnnfaw5WUnrfK",
+  "projectName": "vaidik",
+  "settings": {
+    "createdAt": 1773754709957,
+    "framework": null,
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}

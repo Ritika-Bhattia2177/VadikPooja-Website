@@ -172,7 +172,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFDF5] font-sans text-gray-900">
+    <div className="flex flex-col min-h-screen bg-[#FFFDF5] font-sans text-gray-900">
       <Navbar 
         cartCount={cartCount} 
         onOpenCart={() => setIsCartOpen(true)}
@@ -181,7 +181,7 @@ export default function App() {
         onNavigate={goTo}
       />
 
-      <main>
+      <main className="flex-1">
         <Routes>
           <Route 
             path="/" 
