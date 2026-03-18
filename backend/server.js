@@ -8,6 +8,7 @@ import kitRoutes from './routes/kitRoutes.js';
 import panditRoutes from './routes/panditRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
+import horoscopeRoutes from './routes/horoscopeRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ async function startServer() {
   app.use('/api/pandits', panditRoutes);
   app.use('/api/bookings', bookingRoutes);
   app.use('/api/orders', orderRoutes);
+  app.use('/api/horoscope', horoscopeRoutes);
 
   if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, '0.0.0.0', () => {

@@ -32,9 +32,9 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
                 <div className="w-12 h-1px bg-[#FF9933]" />
                 <span className="text-[#FF9933] font-bold tracking-[0.4em] uppercase text-[10px]">The Essence of Vedic Wisdom</span>
               </div>
-              <h1 className="text-7xl md:text-[110px] font-bold text-white mb-10 leading-[0.95] tracking-tighter">
-                Sacred <br />
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-[#FF6F00] to-[#FF9933]">Rituals</span>
+              <h1 className="text-6xl md:text-[96px] font-bold  text-[#FF9933] mb-10 leading-[0.95] tracking-tighter pr-4 md:pr-10">
+                Sacred<br />
+                <span className="text-white bg-clip-text">Rituals</span>
               </h1>
               <p className="text-xl text-white/60 mb-12 leading-relaxed font-light max-w-lg">
                 Elevate your spiritual practice with authentic Vedic essentials, curated for the modern seeker of peace, divinity, and ancient wisdom.
