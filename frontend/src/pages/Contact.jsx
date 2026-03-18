@@ -2,7 +2,7 @@
 
 export default function ContactPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
       <div className="text-center mb-16">
         <h1 className="text-5xl font-bold text-gray-800 mb-4">Get in Touch</h1>
         <p className="text-gray-500 text-lg">Have questions? We're here to help you on your spiritual journey.</p>

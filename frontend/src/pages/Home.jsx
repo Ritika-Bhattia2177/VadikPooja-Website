@@ -7,13 +7,10 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
     <div className="space-y-24 pb-24">
       <section className="relative min-h-screen flex items-center bg-[#4a2f22] pt-32 md:pt-40">
         <div className="absolute inset-0 z-0">
-          <motion.div
-            initial={{ scale: 1.05, opacity: 0.9 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 16, repeat: Infinity, repeatType: 'reverse', ease: 'linear' }}
+          <div
             className="w-full h-full"
             style={{
-              // Simple warm gradient background (no extra design)
+              // Simple warm gradient background (static, no animation)
               backgroundImage: 'linear-gradient(120deg, #a3461e 0%, #e25a1c 42%, #f8a033 72%, #ffc14d 100%)'
             }}
           />

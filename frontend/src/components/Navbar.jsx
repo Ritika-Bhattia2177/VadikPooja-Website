@@ -1,29 +1,9 @@
 import React from 'react';
 import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { Link } from 'react-router-dom';
 
 export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onNavigate }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const { scrollY } = useScroll();
-  
-  const navBackground = useTransform(
-    scrollY,
-    [0, 100],
-    ['rgba(10, 5, 2, 0.92)', 'rgba(10, 5, 2, 0.92)']
-  );
-
-  const navPadding = useTransform(
-    scrollY,
-    [0, 100],
-    ['2rem', '1rem']
-  );
-
-  const navBorder = useTransform(
-    scrollY,
-    [0, 100],
-    ['rgba(255, 255, 255, 0.12)', 'rgba(255, 255, 255, 0.12)']
-  );
 
   const handleNavClick = (path) => {
     onNavigate(path);
@@ -31,14 +11,8 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onNavi
   };
 
   return (
-    <motion.nav 
-      style={{ 
-        backgroundColor: navBackground,
-        paddingTop: navPadding,
-        paddingBottom: navPadding,
-        borderColor: navBorder
-      }}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b backdrop-blur-md"
+    <nav 
+      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md bg-[rgba(10,5,2,0.92)] border-white/10 py-4 md:py-5 transition-colors"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center">
@@ -121,58 +95,49 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onNavi
       </div>
 
       {/* Mobile Menu - Immersive Overlay */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-[#0a0502] z-60 lg:hidden flex flex-col justify-center items-center"
+      {isMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-[#0a0502] z-60 lg:hidden flex flex-col justify-center items-center"
+        >
+          <button 
+            className="absolute top-8 right-8 p-4 text-white/50 hover:text-[#FF9933]"
+            onClick={() => setIsMenuOpen(false)}
           >
-            <button 
-              className="absolute top-8 right-8 p-4 text-white/50 hover:text-[#FF9933]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <X size={32} />
-            </button>
-            
-            <div className="flex flex-col items-center space-y-8">
-              {[
-                { name: 'Home', path: 'home' },
-                { name: 'Sacred Items', path: 'items' },
-                { name: 'Ritual Kits', path: 'kits' },
-                { name: 'Book Pandit', path: 'pandits' },
-                { name: 'Horoscope', path: 'horoscope' },
-                { name: 'Panchang', path: 'panchang' },
-                { name: 'Contact', path: 'contact' },
-              ].map((link, i) => (
-                <motion.div 
-                  key={link.path}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="text-4xl font-serif italic text-white hover:text-[#FF9933] transition-colors"
+            <X size={32} />
+          </button>
+          
+          <div className="flex flex-col items-center space-y-8">
+            {[
+              { name: 'Home', path: 'home' },
+              { name: 'Sacred Items', path: 'items' },
+              { name: 'Ritual Kits', path: 'kits' },
+              { name: 'Book Pandit', path: 'pandits' },
+              { name: 'Horoscope', path: 'horoscope' },
+              { name: 'Panchang', path: 'panchang' },
+              { name: 'Contact', path: 'contact' },
+            ].map((link) => (
+              <div 
+                key={link.path}
+                className="text-4xl font-serif italic text-white hover:text-[#FF9933] transition-colors"
+              >
+                <Link 
+                  to={link.path === 'home' ? '/' : `/${link.path}`} 
+                  onClick={() => handleNavClick(link.path)}
+                  className="block"
                 >
-                  <Link 
-                    to={link.path === 'home' ? '/' : `/${link.path}`} 
-                    onClick={() => handleNavClick(link.path)}
-                    className="block"
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+                  {link.name}
+                </Link>
+              </div>
+            ))}
+          </div>
 
-            <div className="absolute bottom-12 flex space-x-8 text-white/30 text-[10px] uppercase tracking-[0.4em]">
-              <span>Instagram</span>
-              <span>Facebook</span>
-              <span>Twitter</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+          <div className="absolute bottom-12 flex space-x-8 text-white/30 text-[10px] uppercase tracking-[0.4em]">
+            <span>Instagram</span>
+            <span>Facebook</span>
+            <span>Twitter</span>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 }
