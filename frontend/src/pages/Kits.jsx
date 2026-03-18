@@ -14,8 +14,17 @@ export default function KitsPage({ kits, onAddToCart }) {
             whileHover={{ y: -5 }}
             className="bg-white rounded-[2.5rem] p-10 border border-orange-50 shadow-sm hover:shadow-xl transition-all flex flex-col md:flex-row gap-10"
           >
-            <div className="w-full md:w-48 h-48 bg-linear-to-br from-orange-50 to-yellow-50 rounded-3xl flex items-center justify-center text-[#FF6F00] font-bold text-5xl shrink-0 shadow-inner">
-              {kit.name.charAt(0)}
+            <div className="w-full md:w-48 h-48 rounded-3xl overflow-hidden bg-linear-to-br from-orange-50 to-yellow-50 flex items-center justify-center text-[#FF6F00] font-bold text-5xl shrink-0 shadow-inner">
+              {kit.image ? (
+                <img
+                  src={kit.image}
+                  alt={kit.name}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                kit.name.charAt(0)
+              )}
             </div>
             <div className="flex-1 flex flex-col">
               <h3 className="text-3xl font-bold text-gray-800 mb-4">{kit.name}</h3>

@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { getKits } from '../controllers/kitsController.js';
+import { getKits, createKit } from '../controllers/kitsController.js';
 
 const router = Router();
 
 router.get('/', getKits);
+router.post('/', createKit);
 
 export default router;
