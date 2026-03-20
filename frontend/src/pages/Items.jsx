@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import ProductCard from '../components/ProductCard.jsx';
-import { ShieldCheck, Truck, Users, Award } from 'lucide-react';
+import { ShieldCheck, Truck, Users, Award, Search } from 'lucide-react';
 
 export default function ItemsPage({ products, onAddToCart }) {
   const [category, setCategory] = useState("All Categories");
   const [sortBy, setSortBy] = useState("Sort by: Popularity");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const categories = useMemo(() => {
     const cats = products.map(p => p.category).filter(Boolean);
@@ -13,6 +14,16 @@ export default function ItemsPage({ products, onAddToCart }) {
 
   const filteredAndSortedProducts = useMemo(() => {
     let result = [...products];
+
+    // Search Filter
+    if (searchQuery.trim() !== '') {
+      const lowerQuery = searchQuery.toLowerCase();
+      result = result.filter(p => {
+        const nameMatch = p.name ? p.name.toLowerCase().includes(lowerQuery) : false;
+        const descMatch = p.description ? p.description.toLowerCase().includes(lowerQuery) : false;
+        return nameMatch || descMatch;
+      });
+    }
 
     // Category Filter
     if (category !== "All Categories") {
@@ -27,7 +38,7 @@ export default function ItemsPage({ products, onAddToCart }) {
     }
 
     return result;
-  }, [products, category, sortBy]);
+  }, [products, category, sortBy, searchQuery]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
@@ -36,11 +47,21 @@ export default function ItemsPage({ products, onAddToCart }) {
           <h1 className="text-5xl font-bold text-gray-800 mb-4">Sacred Collection</h1>
           <p className="text-gray-500 text-lg">Authentic essentials for your daily rituals and sacred space.</p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+          <div className="relative flex-grow sm:flex-grow-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <input 
+              type="text" 
+              placeholder="Search items..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:border-[#FF6F00] w-full sm:w-56"
+            />
+          </div>
           <select 
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="px-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:border-[#FF6F00]"
+            className="px-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:border-[#FF6F00] flex-grow sm:flex-grow-0"
           >
             {categories.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
@@ -49,7 +70,7 @@ export default function ItemsPage({ products, onAddToCart }) {
           <select 
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:border-[#FF6F00]"
+            className="px-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:border-[#FF6F00] flex-grow sm:flex-grow-0"
           >
             <option>Sort by: Popularity</option>
             <option>Price: Low to High</option>

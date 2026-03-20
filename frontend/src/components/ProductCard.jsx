@@ -3,11 +3,11 @@ import { ShoppingCart, Star } from 'lucide-react';
 export default function ProductCard({ product, onAddToCart }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100 group">
-      <div className="relative aspect-square overflow-hidden">
+      <div className="relative h-56 overflow-hidden bg-gray-50/50 p-4 flex items-center justify-center">
         <img 
           src={product.image} 
           alt={product.name} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
           referrerPolicy="no-referrer"
         />
         <div className="absolute top-3 right-3">
