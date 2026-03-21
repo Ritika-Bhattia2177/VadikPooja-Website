@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Lock, User, X, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, X, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function Auth({ 
@@ -12,8 +12,19 @@ export default function Auth({
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
+
+  const handleClose = () => {
+    // Clear all fields when modal is closed
+    setEmail('');
+    setPassword('');
+    setName('');
+    setError('');
+    setIsLogin(true);
+    onClose();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +36,9 @@ export default function Auth({
       } else {
         await onRegister(name, email, password);
       }
-      onClose();
+      handleClose();
+      // Automatically refresh the page fully so states trigger perfectly
+      window.location.reload();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Authentication failed';
       setError(message);
@@ -42,7 +55,7 @@ export default function Auth({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleClose}
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-80"
           />
           <motion.div 
@@ -60,7 +73,8 @@ export default function Auth({
                 {isLogin ? 'Welcome Back' : 'Create Account'}
               </h2>
               <button 
-                onClick={onClose}
+                type="button"
+                onClick={handleClose}
                 className="absolute top-4 right-4 p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-colors"
               >
                 <X size={20} />
@@ -102,13 +116,20 @@ export default function Auth({
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input 
-                    type="password" 
+                    type={showPassword ? "text" : "password"} 
                     placeholder="Password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6F00]/20 focus:border-[#FF6F00] transition-all"
+                    className="w-full pl-12 pr-12 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6F00]/20 focus:border-[#FF6F00] transition-all"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6F00] transition-colors focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
 
                 <button 

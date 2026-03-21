@@ -2,7 +2,7 @@ import React from 'react';
 import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onNavigate }) {
+export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogout, onNavigate }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const handleNavClick = (path) => {
@@ -63,14 +63,29 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onNavi
               <Search size={18} />
             </button>
             
-            <button 
-              onClick={onOpenAuth}
-              className="flex items-center space-x-3 p-2 text-white/50 hover:text-[#FF9933] transition-colors group"
-            >
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#FF9933]/50 transition-colors">
-                <User size={16} />
+            {user ? (
+              <div className="relative group flex items-center">
+                <div className="flex items-center space-x-2 p-2 text-white/80 cursor-pointer">
+                  <div className="w-8 h-8 rounded-full border border-[#FF9933]/50 bg-[#FF6F00] flex items-center justify-center text-white font-bold text-xs">
+                    {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                </div>
+                <div className="absolute top-full right-0 mt-2 py-2 w-32 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                  <button onClick={onLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center">
+                    Logout
+                  </button>
+                </div>
               </div>
-            </button>
+            ) : (
+              <button 
+                onClick={onOpenAuth}
+                className="flex items-center space-x-3 p-2 text-white/50 hover:text-[#FF9933] transition-colors group"
+              >
+                <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#FF9933]/50 transition-colors">
+                  <User size={16} />
+                </div>
+              </button>
+            )}
 
             <button 
               onClick={onOpenCart}
