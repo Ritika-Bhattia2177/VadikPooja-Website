@@ -33,7 +33,7 @@ export default function Footer() {
               <li><a href="/" className="hover:text-[#FF6F00] transition-colors">Home</a></li>
               <li><a href="/items" className="hover:text-[#FF6F00] transition-colors">Pooja Items</a></li>
               <li><a href="/kits" className="hover:text-[#FF6F00] transition-colors">Pooja Kits</a></li>
-              <li><a href="/pandits" className="hover:text-[#FF6F00] transition-colors">Book a Pandit</a></li>
+              <li><a href="/pandits" className="hover:text-[#FF6F00] transition-colors">Book Pandit Ji</a></li>
             </ul>
           </div>
 

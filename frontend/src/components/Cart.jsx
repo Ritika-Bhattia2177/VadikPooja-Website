@@ -58,75 +58,87 @@ export default function Cart({
                 </div>
               ) : (
                 <>
-                  {items.map(item => (
-                    <div key={item.id} className="flex space-x-4">
-                      <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0">
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-bold text-gray-800">{item.name}</h3>
-                        <p className="text-[#FF6F00] font-bold">₹{item.price}</p>
-                        <div className="flex items-center mt-2">
-                          <div className="flex items-center border border-gray-200 rounded-lg">
+                  {items.map(item => {
+                    const itemId = item._id || item.id;
+                    return (
+                      <div key={itemId} className="flex space-x-4">
+                        <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-800">{item.name}</h3>
+                          <p className="text-[#FF6F00] font-bold">₹{item.price}</p>
+                          <div className="flex items-center mt-2">
+                            <div className="flex items-center border border-gray-200 rounded-lg">
+                              <button 
+                                onClick={() => onUpdateQuantity(itemId, -1)}
+                                className="p-1 hover:bg-gray-100 text-gray-500"
+                              >
+                                <Minus size={14} />
+                              </button>
+                              <span className="px-3 text-sm font-bold">{item.quantity}</span>
+                              <button 
+                                onClick={() => onUpdateQuantity(itemId, 1)}
+                                className="p-1 hover:bg-gray-100 text-gray-500"
+                              >
+                                <Plus size={14} />
+                              </button>
+                            </div>
                             <button 
-                              onClick={() => onUpdateQuantity(item.id, -1)}
-                              className="p-1 hover:bg-gray-100 text-gray-500"
+                              onClick={() => onRemove(itemId)}
+                              className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
                             >
-                              <Minus size={14} />
-                            </button>
-                            <span className="px-3 text-sm font-bold">{item.quantity}</span>
-                            <button 
-                              onClick={() => onUpdateQuantity(item.id, 1)}
-                              className="p-1 hover:bg-gray-100 text-gray-500"
-                            >
-                              <Plus size={14} />
+                              <Trash2 size={18} />
                             </button>
                           </div>
-                          <button 
-                            onClick={() => onRemove(item.id)}
-                            className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
-                          >
-                            <Trash2 size={18} />
-                          </button>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
 
-                  {kitItems.map(item => (
-                    <div key={`kit-${item.id}`} className="flex space-x-4">
-                      <div className="w-20 h-20 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
-                        <div className="w-10 h-10 bg-[#FF6F00] rounded-full flex items-center justify-center text-white font-bold">K</div>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-bold text-gray-800">{item.name}</h3>
-                        <p className="text-[#FF6F00] font-bold">₹{item.price}</p>
-                        <div className="flex items-center mt-2">
-                          <div className="flex items-center border border-gray-200 rounded-lg">
+                  {kitItems.map(item => {
+                    const kitId = item._id || item.id;
+                    return (
+                      <div key={`kit-${kitId}`} className="flex space-x-4">
+                        <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+                          {item.image ? (
+                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                          ) : (
+                            <div className="w-full h-full bg-orange-50 flex items-center justify-center">
+                              <div className="w-10 h-10 bg-[#FF6F00] rounded-full flex items-center justify-center text-white font-bold">K</div>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-800">{item.name}</h3>
+                          <p className="text-[#FF6F00] font-bold">₹{item.price}</p>
+                          <div className="flex items-center mt-2">
+                            <div className="flex items-center border border-gray-200 rounded-lg">
+                              <button 
+                                onClick={() => onUpdateKitQuantity(kitId, -1)}
+                                className="p-1 hover:bg-gray-100 text-gray-500"
+                              >
+                                <Minus size={14} />
+                              </button>
+                              <span className="px-3 text-sm font-bold">{item.quantity}</span>
+                              <button 
+                                onClick={() => onUpdateKitQuantity(kitId, 1)}
+                                className="p-1 hover:bg-gray-100 text-gray-500"
+                              >
+                                <Plus size={14} />
+                              </button>
+                            </div>
                             <button 
-                              onClick={() => onUpdateKitQuantity(item.id, -1)}
-                              className="p-1 hover:bg-gray-100 text-gray-500"
+                              onClick={() => onRemoveKit(kitId)}
+                              className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
                             >
-                              <Minus size={14} />
-                            </button>
-                            <span className="px-3 text-sm font-bold">{item.quantity}</span>
-                            <button 
-                              onClick={() => onUpdateKitQuantity(item.id, 1)}
-                              className="p-1 hover:bg-gray-100 text-gray-500"
-                            >
-                              <Plus size={14} />
+                              <Trash2 size={18} />
                             </button>
                           </div>
-                          <button 
-                            onClick={() => onRemoveKit(item.id)}
-                            className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
-                          >
-                            <Trash2 size={18} />
-                          </button>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </>
               )}
             </div>

@@ -24,7 +24,8 @@ async function startServer() {
 
   app.use('/api/auth', authRoutes);
   app.use('/api/products', productRoutes);
-  app.use('/api/kits', kitRoutes);
+  app.use('/api/ritual-kits', kitRoutes); // updated to match prompt requirements
+  app.use('/api/kits', kitRoutes); // keeping old route as fallback for existing frontend connections
   app.use('/api/pandits', panditRoutes);
   app.use('/api/bookings', bookingRoutes);
   app.use('/api/orders', orderRoutes);

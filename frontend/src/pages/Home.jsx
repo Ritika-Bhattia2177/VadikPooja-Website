@@ -48,7 +48,7 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
                   onClick={() => onNavigate('pandits')}
                   className="px-10 py-5 border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-all backdrop-blur-md"
                 >
-                  Book a Pandit
+                  Book Pandit Ji
                 </button>
               </div>
             </motion.div>

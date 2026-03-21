@@ -72,7 +72,7 @@ export default function App() {
       body: JSON.stringify({ email, password: pass })
     });
     const data = await res.json();
-    if (data.error) throw new Error(data.error);
+    if (!res.ok || data.error) throw new Error(data.error || 'Login failed');
     setUser(data.user);
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('token', data.token);
@@ -85,17 +85,24 @@ export default function App() {
       body: JSON.stringify({ name, email, password: pass })
     });
     const data = await res.json();
-    if (data.error) throw new Error(data.error);
+    if (!res.ok || data.error) throw new Error(data.error || 'Registration failed');
     setUser(data.user);
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('token', data.token);
   };
 
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  };
+
   const bumpItem = (setter, entity) => {
     setter(prev => {
-      const existing = prev.find(item => item.id === entity.id);
+      const entityId = entity._id || entity.id;
+      const existing = prev.find(item => (item._id || item.id) === entityId);
       if (existing) {
-        return prev.map(item => item.id === entity.id ? { ...item, quantity: item.quantity + 1 } : item);
+        return prev.map(item => (item._id || item.id) === entityId ? { ...item, quantity: item.quantity + 1 } : item);
       }
       return [...prev, { ...entity, quantity: 1 }];
     });
@@ -108,7 +115,7 @@ export default function App() {
   const updateQuantity = (setter) => (id, delta) => {
     setter(prev => prev
       .map(item => {
-        if (item.id === id) {
+        if ((item._id || item.id) === id) {
           const newQty = Math.max(0, item.quantity + delta);
           return { ...item, quantity: newQty };
         }
@@ -178,6 +185,7 @@ export default function App() {
         onOpenCart={() => setIsCartOpen(true)}
         onOpenAuth={() => setIsAuthOpen(true)}
         user={user}
+        onLogout={handleLogout}
         onNavigate={goTo}
       />
 
@@ -206,13 +214,13 @@ export default function App() {
         onUpdateQuantity={updateCartQuantity}
         onUpdateKitQuantity={updateKitQuantity}
         onRemove={(id) => {
-          const existing = cart.find(i => i.id === id);
+          const existing = cart.find(i => (i._id || i.id) === id);
           if (existing) {
             updateCartQuantity(id, -existing.quantity);
           }
         }}
         onRemoveKit={(id) => {
-          const existing = kitCart.find(i => i.id === id);
+          const existing = kitCart.find(i => (i._id || i.id) === id);
           if (existing) {
             updateKitQuantity(id, -existing.quantity);
           }
