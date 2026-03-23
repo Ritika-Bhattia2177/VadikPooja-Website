@@ -1,6 +1,8 @@
 import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2, Star, Users, Quote } from 'lucide-react';
 import ProductCard from '../components/ProductCard.jsx';
+import HowItWorks from '../components/HowItWorks.jsx';
+import PujaVidhiCarousel from '../components/PujaVidhiCarousel.jsx';
 
 export default function HomePage({ products, onAddToCart, onNavigate }) {
   return (
@@ -184,6 +186,8 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
+      <PujaVidhiCarousel />
+
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#1a1a1a] rounded-[3.5rem] p-12 md:p-24 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6F00]/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl" />
@@ -224,6 +228,9 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
           </div>
         </div>
       </section>
+
+      <HowItWorks />
+
     </div>
   );
 }
