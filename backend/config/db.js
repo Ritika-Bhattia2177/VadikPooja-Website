@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 
 export async function connectDB(mongoUri) {
-  const uri = mongoUri || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/vaidikpooja';
+  const uri = mongoUri || process.env.MONGO_URI;
+
+  if (!uri) {
+    throw new Error('MONGO_URI environment variable is not set');
+  }
 
   try {
     const conn = await mongoose.connect(uri, { dbName: 'vaidikpooja' });
