@@ -1,1 +1,0 @@
-import dotenv from 'dotenv'; dotenv.config(); import {connectDB} from './backend/config/db.js'; import Product from './backend/models/Product.js'; import fs from 'fs'; connectDB().then(async () => { const products = await Product.find({}).lean(); fs.writeFileSync('test.json', JSON.stringify(products.slice(-1), null, 2)); process.exit(0); });
