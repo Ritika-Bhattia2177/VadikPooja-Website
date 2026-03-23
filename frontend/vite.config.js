@@ -19,7 +19,7 @@ export default defineConfig(({mode}) => {
       port: 5173,
       proxy: {
         // Use IPv4 to avoid ::1 loopback issues on Windows
-        '/api': 'http://127.0.0.1:4000',
+        '/api': env.VITE_API_URL,
       },
     },
   };

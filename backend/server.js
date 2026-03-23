@@ -22,6 +22,11 @@ async function startServer() {
   app.use(cors());
   app.use(express.json());
 
+  // Health check route to verify server is running
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'Server is running', timestamp: new Date() });
+  });
+
   app.use('/api/auth', authRoutes);
   app.use('/api/products', productRoutes);
   app.use('/api/ritual-kits', kitRoutes); // updated to match prompt requirements
