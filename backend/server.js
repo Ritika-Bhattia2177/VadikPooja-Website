@@ -33,7 +33,7 @@ async function startServer() {
 
   if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`API server running on http://localhost:${PORT}`);
+      console.log(`API server running http://localhost:${PORT}`);
     });
   }
 
