@@ -34,9 +34,9 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="py-24 bg-[#FAFAFA] border-y border-orange-50">
+    <section className="py-16 md:py-18 bg-[#FAFAFA] border-y border-orange-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 space-y-4">
+        <div className="text-center mb-12 space-y-3">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -56,11 +56,11 @@ export default function HowItWorks() {
           </motion.p>
         </div>
 
-        <div className="relative mt-20">
+  <div className="relative mt-12 md:mt-14">
           {/* Connecting Line for Desktop */}
-          <div className="hidden lg:block absolute top-[60px] left-[10%] right-[10%] h-[3px] bg-gradient-to-r from-orange-100 via-orange-300 to-orange-100 -z-10" />
+          <div className="hidden lg:block absolute top-13 left-[10%] right-[10%] h-1 bg-linear-to-r from-orange-100 via-orange-300 to-orange-100 -z-10" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-4 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4 relative z-10">
             {steps.map((step, index) => (
               <motion.div
                 key={step.id}
@@ -72,7 +72,7 @@ export default function HowItWorks() {
               >
                 <div className="relative mb-6">
                   {/* Circle background */}
-                  <div className="w-[120px] h-[120px] bg-orange-50 rounded-full flex items-center justify-center border-4 border-white shadow-xl shadow-orange-900/5 group-hover:scale-105 group-hover:bg-[#FF6F00] group-hover:border-orange-100 transition-all duration-300">
+                  <div className="w-28 h-28 bg-orange-50 rounded-full flex items-center justify-center border-4 border-white shadow-xl shadow-orange-900/5 group-hover:scale-105 group-hover:bg-[#FF6F00] group-hover:border-orange-100 transition-all duration-300">
                     <div className="group-hover:text-white transition-colors duration-300 [&>svg]:text-inherit">
                       {React.cloneElement(step.icon, { className: "w-10 h-10 transition-colors duration-300 group-hover:text-white text-[#FF6F00]" })}
                     </div>
