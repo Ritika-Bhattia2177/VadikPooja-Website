@@ -100,7 +100,7 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
             { title: 'Verified Scholars', desc: 'Our pandits are certified scholars with years of experience in Vedic rituals.', icon: <Users className="text-[#FF6F00]" size={32} /> },
           ].map((item, i) => (
             <motion.div
-              key={item.title}
+              key={`feature-${i}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -127,9 +127,9 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
             { name: 'Pooja Kits', desc: 'Complete ceremony sets', img: 'https://servdharm.com/cdn/shop/files/SampoornPoojaSamagriKit_3_2400x.png?v=1712585276', link: 'kits' },
             { name: 'Pandit Booking', desc: 'Verified Vedic scholars', img: 'https://ompoojapath.com/storage/about/about_us.jpg', link: 'pandits' },
             { name: 'Consultation', desc: 'Spiritual guidance', img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', link: 'contact' },
-          ].map((cat) => (
+          ].map((cat, i) => (
             <motion.div
-              key={cat.name}
+              key={`offering-${i}`}
               whileHover={{ y: -10 }}
               onClick={() => onNavigate(cat.link)}
               className="relative h-80 rounded-[2.5rem] overflow-hidden cursor-pointer group shadow-lg"
@@ -174,8 +174,8 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
             { step: '01', title: 'Select Service', desc: 'Choose from our wide range of pooja items, kits, or pandit services.' },
             { step: '02', title: 'Customize Ritual', desc: 'Provide details about your ceremony, date, and specific requirements.' },
             { step: '03', title: 'Experience Divinity', desc: 'Receive authentic items or welcome a scholar to perform the ritual.' },
-          ].map((item) => (
-            <div key={item.step} className="relative z-10 flex flex-col items-center text-center">
+          ].map((item, i) => (
+            <div key={`step-${item.step}-${i}`} className="relative z-10 flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-[#FF6F00] text-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 shadow-xl shadow-orange-200">
                 {item.step}
               </div>
@@ -199,14 +199,14 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
                 {[
                   { name: 'Amit Verma', text: "The Satyanarayan Pooja kit was so complete, we didn't have to run for anything at the last minute. Highly recommended!", rating: 5 },
                   { name: 'Priya Singh', text: 'The Pandit we booked was very knowledgeable and explained every mantra. A truly spiritual experience.', rating: 5 },
-                ].map((t) => (
-                  <div key={t.name} className="bg-white/5 backdrop-blur-md p-8 rounded-4xl border border-white/10">
+                ].map((t, i) => (
+                  <div key={`testimonial-${i}`} className="bg-white/5 backdrop-blur-md p-8 rounded-4xl border border-white/10">
                     <p className="text-xl italic mb-6 leading-relaxed text-gray-300">"{t.text}"</p>
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-lg">{t.name}</span>
                       <div className="flex text-[#FF9933]">
                         {[...Array(t.rating)].map((_, i) => (
-                          <Star key={`${t.name}-${i}`} size={18} fill="currentColor" />
+                          <Star key={`star-${i}`} size={18} fill="currentColor" />
                         ))}
                       </div>
                     </div>

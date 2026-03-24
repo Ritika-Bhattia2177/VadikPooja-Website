@@ -31,21 +31,14 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body;
     let user = await User.findOne({ email });
-
-    // If user doesn't exist and they are trying to "directly login", 
-    // seamlessly auto-register them to fulfill "direct login with signup"
     if (!user) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const defaultName = email.split('@')[0]; // Fallback name from email
-      user = await User.create({ name: defaultName, email, password: hashedPassword });
-    } else {
-      // User exists, verify password
-      const passwordMatches = await bcrypt.compare(password, user.password);
-      if (!passwordMatches) {
-        return res.status(401).json({ error: 'Incorrect password for this email.' });
-      }
+      return res.status(404).json({ error: 'User not found. Please register first.' });
     }
-
+    // User exists, verify password
+    const passwordMatches = await bcrypt.compare(password, user.password);
+    if (!passwordMatches) {
+      return res.status(401).json({ error: 'Incorrect password for this email.' });
+    }
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET);
     return res.json({ token, user: { id: user._id, name: user.name, email: user.email } });
   } catch (error) {
