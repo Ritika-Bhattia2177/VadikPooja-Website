@@ -226,6 +226,10 @@ export default function App() {
           }
         }}
         onCheckout={handleCheckout}
+        onStartShopping={() => {
+          setIsCartOpen(false);
+          navigate('/items');
+        }}
       />
 
       <Auth 
