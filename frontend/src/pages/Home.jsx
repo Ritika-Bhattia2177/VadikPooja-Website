@@ -6,8 +6,8 @@ import PujaVidhiCarousel from '../components/PujaVidhiCarousel.jsx';
 
 export default function HomePage({ products, onAddToCart, onNavigate }) {
   return (
-    <div className="space-y-24 pb-24">
-      <section className="relative min-h-screen flex items-center bg-[#4a2f22] pt-32 md:pt-40">
+    <div className="space-y-10 md:space-y-14 pb-10 md:pb-14">
+      <section className="relative min-h-screen flex items-center bg-[#4a2f22] pt-20 md:pt-28">
         <div className="absolute inset-0 z-0">
           <div
             className="w-full h-full"
@@ -21,7 +21,7 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-14 items-center">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -31,11 +31,11 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
                 <div className="w-12 h-1px bg-[#FF9933]" />
                 <span className="text-[#FF9933] font-bold tracking-[0.4em] uppercase text-[10px]">The Essence of Vedic Wisdom</span>
               </div>
-              <h1 className="text-6xl md:text-[96px] font-bold  text-[#FF9933] mb-10 leading-[0.95] tracking-tighter pr-4 md:pr-10">
+              <h1 className="text-6xl md:text-[96px] font-bold  text-[#FF9933] mb-6 leading-[0.95] tracking-tighter pr-4 md:pr-10">
                 Sacred<br />
                 <span className="text-white bg-clip-text">Rituals</span>
               </h1>
-              <p className="text-xl text-white/60 mb-12 leading-relaxed font-light max-w-lg">
+              <p className="text-xl text-white/60 mb-6 leading-relaxed font-light max-w-lg">
                 Elevate your spiritual practice with authentic Vedic essentials, curated for the modern seeker of peace, divinity, and ancient wisdom.
               </p>
               <div className="flex flex-wrap gap-6">
@@ -92,8 +92,8 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </motion.div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-9">
           {[
             { title: '100% Pure & Natural', desc: 'Our items are sourced directly from sacred forests and traditional artisans.', icon: <CheckCircle2 className="text-[#FF6F00]" size={32} /> },
             { title: 'Vedic Authenticity', desc: 'Every ritual kit is curated according to ancient scriptures and traditions.', icon: <Star className="text-[#FF6F00]" size={32} /> },
@@ -116,12 +116,12 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-10">
           <span className="text-[#FF6F00] font-bold tracking-widest uppercase text-sm">Our Offerings</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mt-2 mb-4">Sacred Collections</h2>
           <div className="w-24 h-1.5 bg-[#FF6F00] mx-auto rounded-full" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 md:gap-8">
           {[
             { name: 'Pooja Items', desc: 'Daily ritual essentials', img: 'https://wemy.in/cdn/shop/files/IMG-20241230-WA0079.jpg?v=1755682186', link: 'items' },
             { name: 'Pooja Kits', desc: 'Complete ceremony sets', img: 'https://servdharm.com/cdn/shop/files/SampoornPoojaSamagriKit_3_2400x.png?v=1712585276', link: 'kits' },
@@ -144,9 +144,9 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
-      <section className="bg-white py-24 border-y border-orange-50">
+      <section className="bg-white py-10 md:py-14 border-y border-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-6">
             <div>
               <span className="text-[#FF6F00] font-bold tracking-widest uppercase text-sm">Best Sellers</span>
               <h2 className="text-4xl font-bold text-gray-800 mt-2">Popular Essentials</h2>
@@ -163,12 +163,12 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <div className="text-center mb-8">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">Your Spiritual Journey</h2>
           <p className="text-gray-500 max-w-2xl mx-auto">Three simple steps to bring divinity and peace to your home ceremonies.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 relative">
           <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-orange-100 -translate-y-1/2 z-0" />
           {[
             { step: '01', title: 'Select Service', desc: 'Choose from our wide range of pooja items, kits, or pandit services.' },
@@ -189,13 +189,13 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
       <PujaVidhiCarousel />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#1a1a1a] rounded-[3.5rem] p-12 md:p-24 relative overflow-hidden">
+        <div className="bg-[#1a1a1a] rounded-[3.5rem] p-10 md:p-14 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6F00]/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl" />
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-14 items-center">
             <div className="text-white">
               <Quote size={80} className="mb-8 text-[#FF6F00] opacity-50" />
               <h2 className="text-5xl font-bold mb-10 leading-tight">Trusted by <br />Thousands of <br />Devotees</h2>
-              <div className="space-y-10">
+              <div className="space-y-7">
                 {[
                   { name: 'Amit Verma', text: "The Satyanarayan Pooja kit was so complete, we didn't have to run for anything at the last minute. Highly recommended!", rating: 5 },
                   { name: 'Priya Singh', text: 'The Pandit we booked was very knowledgeable and explained every mantra. A truly spiritual experience.', rating: 5 },

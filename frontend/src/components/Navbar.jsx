@@ -12,7 +12,7 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md bg-[rgba(10,5,2,0.92)] border-white/10 py-4 md:py-5 transition-colors"
+      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md bg-[rgba(10,5,2,0.92)] border-white/10 py-3 md:py-4 transition-colors"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center">
