@@ -36,11 +36,9 @@ async function startServer() {
   app.use('/api/orders', orderRoutes);
   app.use('/api/horoscope', horoscopeRoutes);
 
-  if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`API server running http://localhost:${PORT}`);
-    });
-  }
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`API server running http://localhost:${PORT}`);
+  });
 
   return app;
 }

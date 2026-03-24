@@ -11,6 +11,11 @@ export async function createOrder(req, res) {
 }
 
 export async function getOrders(req, res) {
-  const orders = await Order.find({ userId: req.params.userId }).sort({ created_at: -1 }).lean();
-  res.json(orders);
+  try {
+    const orders = await Order.find({ userId: req.params.userId }).sort({ created_at: -1 }).lean();
+    res.json(orders);
+  } catch (error) {
+    console.error('Get orders failed', error);
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
 }
