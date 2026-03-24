@@ -11,7 +11,8 @@ export default function Cart({
   onUpdateKitQuantity,
   onRemove,
   onRemoveKit,
-  onCheckout 
+  onCheckout,
+  onStartShopping
 }) {
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 
                 kitItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -50,7 +51,7 @@ export default function Cart({
                   <ShoppingCart size={64} className="mb-4 opacity-20" />
                   <p className="text-lg">Your cart is empty</p>
                   <button 
-                    onClick={onClose}
+                    onClick={onStartShopping ? onStartShopping : onClose}
                     className="mt-4 text-[#FF6F00] font-bold hover:underline"
                   >
                     Start Shopping
