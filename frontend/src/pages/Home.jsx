@@ -115,6 +115,39 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
+      <section className="video-section">
+        <div className="video-section-header">
+          <span className="video-section-tag">Featured Videos</span>
+          <h2 className="video-section-title">Hindu Worship Videos</h2>
+          <p className="video-section-subtitle">Immerse in serene chants, sacred rituals, and divine moments captured for your spiritual journey.</p>
+        </div>
+        <div className="video-grid">
+          {[{
+            src: '/videos/video1.mp4',
+            title: 'Divine Morning Aarti'
+          }, {
+            src: '/videos/video2.mp4',
+            title: 'Abhishekam Ritual Blessings'
+          }, {
+            src: '/videos/video3.mp4',
+            title: 'Evening Temple Darshan'
+          }].map((video, i) => (
+            <div key={`video-${i}`} className="video-card">
+              <div className="video-card-glow" />
+              <div className="video-media">
+                <video controls className="video-player" preload="metadata">
+                  <source src={video.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div className="video-card-body">
+                <h3 className="video-card-title">{video.title}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 md:mb-10">
           <span className="text-[#FF6F00] font-bold tracking-widest uppercase text-sm">Our Offerings</span>
