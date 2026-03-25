@@ -1,27 +1,44 @@
-import Product from '../models/Product.js';
+import { db } from "../config/db.js";
 
-export async function getProducts(_req, res) {
-  try {
-    const products = await Product.find({}).lean();
-    return res.json(products);
-  } catch (error) {
-    console.error('Get products failed', error);
-    return res.status(500).json({ error: 'Failed to fetch products' });
-  }
-}
-
-export async function createProduct(req, res) {
-  try {
-    const { name, image, price, description = '', category } = req.body || {};
-
-    if (!name || !image || !price || !category) {
-      return res.status(400).json({ error: 'name, image, price, and category are required' });
+// ================= GET PRODUCTS =================
+export function getProducts(req, res) {
+  db.query("SELECT * FROM products", (err, results) => {
+    if (err) {
+      console.error("Get products error:", err);
+      return res.status(500).json({ error: err.message });
     }
 
-    const product = await Product.create({ name, image, price, description, category });
-    return res.status(201).json(product);
-  } catch (error) {
-    console.error('Create product failed', error);
-    return res.status(500).json({ error: 'Failed to create product' });
+    return res.json(results);
+  });
+}
+
+// ================= CREATE PRODUCT =================
+export function createProduct(req, res) {
+  const { name, image, price, description = "", category } = req.body;
+
+  if (!name || !image || !price || !category) {
+    return res.status(400).json({
+      error: "name, image, price, and category are required",
+    });
   }
+
+  db.query(
+    "INSERT INTO products (name, image, price, description, category) VALUES (?, ?, ?, ?, ?)",
+    [name, image, price, description, category],
+    (err, result) => {
+      if (err) {
+        console.error("Create product error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      return res.status(201).json({
+        id: result.insertId,
+        name,
+        image,
+        price,
+        description,
+        category,
+      });
+    }
+  );
 }

@@ -1,127 +1,138 @@
-import Kit from '../models/Kit.js';
+import { db } from "../config/db.js";
 
-export async function getKits(req, res) {
-  try {
-    const { category, sort } = req.query || {};
-    
-    // Filtering
-    let query = {};
-    if (category) {
-      query.category = category;
-    }
+// ================= GET ALL KITS =================
+export function getKits(req, res) {
+  const { category, sort } = req.query || {};
 
-    // Sorting
-    let sortOption = {};
-    if (sort === 'price_low_high') {
-      sortOption.price = 1; // Price Low to High
-    } else if (sort === 'newest') {
-      sortOption.createdAt = -1; // Newest first
-    }
+  let query = "SELECT * FROM kits";
+  let values = [];
 
-    const kits = await Kit.find(query).sort(sortOption).lean();
-    
-    return res.status(200).json({
-      success: true,
-      count: kits.length,
-      data: kits
-    });
-  } catch (error) {
-    console.error('Get kits failed', error);
-    return res.status(500).json({ error: 'Failed to fetch kits', details: error.message });
+  // Filtering
+  if (category) {
+    query += " WHERE category = ?";
+    values.push(category);
   }
+
+  // Sorting
+  if (sort === "price_low_high") {
+    query += " ORDER BY price ASC";
+  } else if (sort === "newest") {
+    query += " ORDER BY id DESC";
+  }
+
+  db.query(query, values, (err, results) => {
+    if (err) {
+      console.error("Get kits error:", err);
+      return res.status(500).json({ error: err.message });
+    }
+
+    return res.json({
+      success: true,
+      count: results.length,
+      data: results,
+    });
+  });
 }
 
-export async function createKit(req, res) {
-  try {
-    const { name, description, price, category, image, itemsIncluded, stock } = req.body || {};
+// ================= CREATE KIT =================
+export function createKit(req, res) {
+  const { name, description, price, category, image, itemsIncluded, stock } = req.body;
 
-    // Basic validation
-    if (!name || !price) {
-      return res.status(400).json({ error: 'Name and price are required fields' });
-    }
-
-    const kit = await Kit.create({ 
-      name, 
-      description, 
-      price, 
-      category, 
-      image, 
-      itemsIncluded, 
-      stock 
-    });
-    
-    return res.status(201).json({
-      success: true,
-      message: 'Ritual Kit created successfully',
-      data: kit
-    });
-  } catch (error) {
-    console.error('Create kit failed', error);
-    return res.status(500).json({ error: 'Failed to create kit', details: error.message });
+  if (!name || !price) {
+    return res.status(400).json({ error: "Name and price are required fields" });
   }
+
+  db.query(
+    "INSERT INTO kits (name, description, price, category, image, itemsIncluded, stock) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    [name, description, price, category, image, itemsIncluded, stock || 0],
+    (err, result) => {
+      if (err) {
+        console.error("Create kit error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      return res.status(201).json({
+        success: true,
+        message: "Ritual Kit created successfully",
+        data: {
+          id: result.insertId,
+          name,
+          description,
+          price,
+          category,
+          image,
+          itemsIncluded,
+          stock,
+        },
+      });
+    }
+  );
 }
 
-export async function getKitById(req, res) {
-  try {
-    const { id } = req.params;
-    const kit = await Kit.findById(id).lean();
+// ================= GET KIT BY ID =================
+export function getKitById(req, res) {
+  const { id } = req.params;
 
-    if (!kit) {
-      return res.status(404).json({ success: false, error: 'Ritual Kit not found' });
+  db.query("SELECT * FROM kits WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      console.error("Get kit error:", err);
+      return res.status(500).json({ error: err.message });
     }
 
-    return res.status(200).json({
+    if (result.length === 0) {
+      return res.status(404).json({ success: false, error: "Ritual Kit not found" });
+    }
+
+    return res.json({
       success: true,
-      data: kit
+      data: result[0],
     });
-  } catch (error) {
-    console.error('Get kit by ID failed', error);
-    return res.status(500).json({ error: 'Failed to fetch the kit', details: error.message });
-  }
+  });
 }
 
-export async function updateKit(req, res) {
-  try {
-    const { id } = req.params;
-    const updateData = req.body;
+// ================= UPDATE KIT =================
+export function updateKit(req, res) {
+  const { id } = req.params;
+  const { name, description, price, category, image, itemsIncluded, stock } = req.body;
 
-    const updatedKit = await Kit.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true, runValidators: true }
-    ).lean();
+  db.query(
+    "UPDATE kits SET name=?, description=?, price=?, category=?, image=?, itemsIncluded=?, stock=? WHERE id=?",
+    [name, description, price, category, image, itemsIncluded, stock, id],
+    (err, result) => {
+      if (err) {
+        console.error("Update kit error:", err);
+        return res.status(500).json({ error: err.message });
+      }
 
-    if (!updatedKit) {
-      return res.status(404).json({ success: false, error: 'Ritual Kit not found' });
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ success: false, error: "Ritual Kit not found" });
+      }
+
+      return res.json({
+        success: true,
+        message: "Ritual Kit updated successfully",
+      });
     }
-
-    return res.status(200).json({
-      success: true,
-      message: 'Ritual Kit updated successfully',
-      data: updatedKit
-    });
-  } catch (error) {
-    console.error('Update kit failed', error);
-    return res.status(500).json({ error: 'Failed to update the kit', details: error.message });
-  }
+  );
 }
 
-export async function deleteKit(req, res) {
-  try {
-    const { id } = req.params;
+// ================= DELETE KIT =================
+export function deleteKit(req, res) {
+  const { id } = req.params;
 
-    const deletedKit = await Kit.findByIdAndDelete(id);
-
-    if (!deletedKit) {
-      return res.status(404).json({ success: false, error: 'Ritual Kit not found or already deleted' });
+  db.query("DELETE FROM kits WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      console.error("Delete kit error:", err);
+      return res.status(500).json({ error: err.message });
     }
 
-    return res.status(200).json({
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, error: "Ritual Kit not found" });
+    }
+
+    return res.json({
       success: true,
-      message: 'Ritual Kit deleted successfully'
+      message: "Ritual Kit deleted successfully",
     });
-  } catch (error) {
-    console.error('Delete kit failed', error);
-    return res.status(500).json({ error: 'Failed to delete the kit', details: error.message });
-  }
+  });
 }

@@ -1,18 +1,20 @@
-import mongoose from 'mongoose';
 
-export async function connectDB(mongoUri) {
-  const uri = mongoUri || process.env.MONGO_URI;
+import mysql from "mysql2";
+import dotenv from "dotenv";
 
-  if (!uri) {
-    throw new Error('MONGO_URI environment variable is not set');
+dotenv.config();
+
+export const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+db.connect((err) => {
+  if (err) {
+    console.error("MySQL connection error:", err.message);
+  } else {
+    console.log("MySQL Connected ✅");
   }
-
-  try {
-    const conn = await mongoose.connect(uri, { dbName: 'vaidikpooja' });
-    const { host, port, name } = conn.connection;
-    console.log(`Mongo connected -> ${host}:${port}/${name}`);
-  } catch (err) {
-    console.error('Mongo connection failed', err);
-    throw err;
-  }
-}
+});
