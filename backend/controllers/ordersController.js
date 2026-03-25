@@ -1,21 +1,48 @@
-import Order from '../models/Order.js';
+import { db } from "../config/db.js";
 
-export async function createOrder(req, res) {
+// ================= CREATE ORDER =================
+export function createOrder(req, res) {
   const { userId, items, totalPrice } = req.body;
-  try {
-    const order = await Order.create({ userId, items, total_price: totalPrice });
-    res.json({ id: order._id });
-  } catch (error) {
-    res.status(500).json({ error: 'Order failed' });
-  }
+
+  // convert items array/object to string
+  const itemsString = JSON.stringify(items);
+
+  db.query(
+    "INSERT INTO orders (userId, items, total_price) VALUES (?, ?, ?)",
+    [userId, itemsString, totalPrice],
+    (err, result) => {
+      if (err) {
+        console.error("Create order error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      return res.json({
+        id: result.insertId
+      });
+    }
+  );
 }
 
-export async function getOrders(req, res) {
-  try {
-    const orders = await Order.find({ userId: req.params.userId }).sort({ created_at: -1 }).lean();
-    res.json(orders);
-  } catch (error) {
-    console.error('Get orders failed', error);
-    res.status(500).json({ error: 'Failed to fetch orders' });
-  }
+// ================= GET ORDERS =================
+export function getOrders(req, res) {
+  const { userId } = req.params;
+
+  db.query(
+    "SELECT * FROM orders WHERE userId = ? ORDER BY created_at DESC",
+    [userId],
+    (err, results) => {
+      if (err) {
+        console.error("Get orders error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      // convert items back to JSON
+      const formatted = results.map(order => ({
+        ...order,
+        items: JSON.parse(order.items)
+      }));
+
+      return res.json(formatted);
+    }
+  );
 }

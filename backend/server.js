@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connectDB } from './config/db.js';
+import { db } from './config/db.js';
+
 import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import kitRoutes from './routes/kitRoutes.js';
@@ -12,40 +13,28 @@ import horoscopeRoutes from './routes/horoscopeRoutes.js';
 
 dotenv.config();
 
-const { PORT = 4000 } = process.env;
+const app = express();
 
-async function startServer() {
-  await connectDB();
+app.use(cors());
+app.use(express.json());
 
-  const app = express();
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Server is running', timestamp: new Date() });
+});
 
-  app.use(cors());
-  app.use(express.json());
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/ritual-kits', kitRoutes);
+app.use('/api/kits', kitRoutes);
+app.use('/api/pandits', panditRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/horoscope', horoscopeRoutes);
 
-  // Health check route to verify server is running
-  app.get('/api/health', (req, res) => {
-    res.json({ status: 'Server is running', timestamp: new Date() });
-  });
+const PORT = process.env.PORT || 4000;
 
-  app.use('/api/auth', authRoutes);
-  app.use('/api/products', productRoutes);
-  app.use('/api/ritual-kits', kitRoutes); // updated to match prompt requirements
-  app.use('/api/kits', kitRoutes); // keeping old route as fallback for existing frontend connections
-  app.use('/api/pandits', panditRoutes);
-  app.use('/api/bookings', bookingRoutes);
-  app.use('/api/orders', orderRoutes);
-  app.use('/api/horoscope', horoscopeRoutes);
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`API server running http://localhost:${PORT}`);
-  });
-
-  return app;
-}
-
-const appPromise = startServer();
-
-export default async function (req, res) {
-  const app = await appPromise;
-  return app(req, res);
-}
+app.listen(PORT, () => {
+  console.log(`API server running http://localhost:${PORT}`);
+});

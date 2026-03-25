@@ -1,11 +1,21 @@
-import Booking from '../models/Booking.js';
+import { db } from "../config/db.js";
 
-export async function createBooking(req, res) {
+// CREATE BOOKING
+export function createBooking(req, res) {
   const { userId, panditId, poojaType, date, location } = req.body;
-  try {
-    const booking = await Booking.create({ userId, panditId, poojaType, date, location });
-    res.json({ id: booking._id });
-  } catch (error) {
-    res.status(500).json({ error: 'Booking failed' });
-  }
+
+  db.query(
+    "INSERT INTO bookings (userId, panditId, poojaType, date, location) VALUES (?, ?, ?, ?, ?)",
+    [userId, panditId, poojaType, date, location],
+    (err, result) => {
+      if (err) {
+        console.error("Booking Error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      return res.json({
+        id: result.insertId
+      });
+    }
+  );
 }
