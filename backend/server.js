@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { db } from './config/db.js';
+import { query } from './config/db.js';
+import initTables from './config/initTables.js';
 
 import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
@@ -32,6 +33,19 @@ app.use('/api/pandits', panditRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/horoscope', horoscopeRoutes);
+
+// Initialize DB tables if they don't exist
+initTables();
+
+// Small endpoint to verify DB connectivity
+app.get('/test-db', async (req, res) => {
+  try {
+    const data = await query('SELECT 1 AS ok');
+    return res.json({ success: true, message: 'MySQL is connected ✅', data });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err && err.message ? err.message : String(err) });
+  }
+});
 
 const PORT = process.env.PORT || 4000;
 

@@ -36,37 +36,54 @@ export function getKits(req, res) {
 
 // ================= CREATE KIT =================
 export function createKit(req, res) {
-  const { name, description, price, category, image, itemsIncluded, stock } = req.body;
+  let { name, description, price, category, image, itemsIncluded, stock } = req.body;
 
   if (!name || !price) {
     return res.status(400).json({ error: "Name and price are required fields" });
   }
 
-  db.query(
-    "INSERT INTO kits (name, description, price, category, image, itemsIncluded, stock) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [name, description, price, category, image, itemsIncluded, stock || 0],
-    (err, result) => {
-      if (err) {
-        console.error("Create kit error:", err);
-        return res.status(500).json({ error: err.message });
-      }
+  // Fix values
+  price = Number(price);
+  stock = Number(stock) || 0;
 
-      return res.status(201).json({
-        success: true,
-        message: "Ritual Kit created successfully",
-        data: {
-          id: result.insertId,
-          name,
-          description,
-          price,
-          category,
-          image,
-          itemsIncluded,
-          stock,
-        },
-      });
+  if (Array.isArray(itemsIncluded)) {
+    itemsIncluded = itemsIncluded.join(", ");
+  }
+
+  // 🔥 FIX: replace undefined with null
+  description = description ?? null;
+  category = category ?? null;
+  image = image ?? null;
+  itemsIncluded = itemsIncluded ?? null;
+
+  const sql = `
+    INSERT INTO kits 
+    (name, description, price, category, image, itemsIncluded, stock)
+    VALUES (
+      ${db.escape(name)},
+      ${db.escape(description)},
+      ${price},
+      ${db.escape(category)},
+      ${db.escape(image)},
+      ${db.escape(itemsIncluded)},
+      ${stock}
+    )
+  `;
+
+  console.log("FINAL SQL:", sql);
+
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("FINAL ERROR:", err);
+      return res.status(500).json({ error: err.message });
     }
-  );
+
+    return res.status(201).json({
+      success: true,
+      message: "Kit created successfully",
+      data: result
+    });
+  });
 }
 
 // ================= GET KIT BY ID =================
@@ -80,7 +97,10 @@ export function getKitById(req, res) {
     }
 
     if (result.length === 0) {
-      return res.status(404).json({ success: false, error: "Ritual Kit not found" });
+      return res.status(404).json({
+        success: false,
+        error: "Ritual Kit not found",
+      });
     }
 
     return res.json({
@@ -97,7 +117,16 @@ export function updateKit(req, res) {
 
   db.query(
     "UPDATE kits SET name=?, description=?, price=?, category=?, image=?, itemsIncluded=?, stock=? WHERE id=?",
-    [name, description, price, category, image, itemsIncluded, stock, id],
+    [
+      name || null,
+      description || null,
+      price || null,
+      category || null,
+      image || null,
+      itemsIncluded ? JSON.stringify(itemsIncluded) : null,
+      stock || 0,
+      id
+    ],
     (err, result) => {
       if (err) {
         console.error("Update kit error:", err);
@@ -105,7 +134,10 @@ export function updateKit(req, res) {
       }
 
       if (result.affectedRows === 0) {
-        return res.status(404).json({ success: false, error: "Ritual Kit not found" });
+        return res.status(404).json({
+          success: false,
+          error: "Ritual Kit not found",
+        });
       }
 
       return res.json({
@@ -127,7 +159,10 @@ export function deleteKit(req, res) {
     }
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ success: false, error: "Ritual Kit not found" });
+      return res.status(404).json({
+        success: false,
+        error: "Ritual Kit not found",
+      });
     }
 
     return res.json({
