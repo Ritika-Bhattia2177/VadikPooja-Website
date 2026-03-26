@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getHoroscope } from '../controllers/horoscopeController.js';
+import { getProkeralaHoroscope } from '../controllers/horoscopeController.js';
+
 
 const router = Router();
-
-router.get('/', getHoroscope);
+router.get('/prokerala', getProkeralaHoroscope);
 
 export default router;
