@@ -100,7 +100,7 @@ export default function KitsPage({ onAddToCart }) {
           <p className="text-xl">{searchQuery ? `No kits found matching "${searchQuery}"` : "No ritual kits available at the moment."}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
           {filteredKits.map((kit) => {
             const itemsStr = Array.isArray(kit.itemsIncluded) 
                 ? kit.itemsIncluded.join(', ') 
@@ -113,7 +113,7 @@ export default function KitsPage({ onAddToCart }) {
                 whileHover={{ y: -6 }}
                 className="bg-white rounded-2xl flex flex-col border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
-                <div className="relative h-56 w-full bg-orange-50 overflow-hidden group flex items-center justify-center">
+                <div className="relative h-44 w-full bg-orange-50 overflow-hidden group flex items-center justify-center">
                   <img
                     src={kit.image}
                     alt={kit.name}
@@ -133,11 +133,11 @@ export default function KitsPage({ onAddToCart }) {
                   )}
                 </div>
                 
-                <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1" title={kit.name}>{kit.name}</h3>
+                <div className="p-4 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-1" title={kit.name}>{kit.name}</h3>
                   
                   {kit.description && (
-                    <p className="text-gray-500 text-sm mb-4 line-clamp-2" title={kit.description}>
+                    <p className="text-gray-500 text-sm mb-3 line-clamp-2" title={kit.description}>
                       {kit.description}
                     </p>
                   )}
