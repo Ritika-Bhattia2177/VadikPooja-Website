@@ -40,11 +40,10 @@ export default function App() {
 
     const loadData = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL;
         const [prodRes, kitRes, panditRes] = await Promise.all([
-          fetch(`${apiUrl}/api/products`),
-          fetch(`${apiUrl}/api/kits`),
-          fetch(`${apiUrl}/api/pandits`)
+          fetch('/api/products'),
+          fetch('/api/kits'),
+          fetch('/api/pandits')
         ]);
 
         const responses = [prodRes, kitRes, panditRes];
@@ -257,11 +256,35 @@ export default function App() {
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Pooja Type</label>
                 <select name="poojaType" required className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#FF6F00]">
-                  <option>Satyanarayan Pooja</option>
-                  <option>Griha Pravesh</option>
-                  <option>Lakshmi Pooja</option>
-                  <option>Ganesh Pooja</option>
-                  <option>Mundan Ceremony</option>
+                  {(() => {
+                    const defaultPoojas = [
+                      "Satyanarayan Pooja", 
+                      "Griha Pravesh", 
+                      "Lakshmi Pooja", 
+                      "Ganesh Pooja", 
+                      "Mundan Ceremony"
+                    ];
+                    
+                    // Parse poojaTypes/specializations in case they are JSON strings from the DB
+                    const parsedPoojaTypes = typeof bookingPandit.poojaTypes === "string" 
+                      ? JSON.parse(bookingPandit.poojaTypes) 
+                      : bookingPandit.poojaTypes || [];
+                      
+                    const parsedSpecialization = typeof bookingPandit.specialization === "string" 
+                      ? JSON.parse(bookingPandit.specialization) 
+                      : bookingPandit.specialization || [];
+
+                    // Combine and remove duplicates
+                    const options = [...new Set([
+                      ...parsedPoojaTypes,
+                      ...parsedSpecialization, 
+                      ...defaultPoojas
+                    ])];
+                    
+                    return options.map((pooja, index) => (
+                      <option key={index} value={pooja}>{pooja}</option>
+                    ));
+                  })()}
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-6">
