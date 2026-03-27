@@ -76,6 +76,7 @@
 	box-shadow: 0 18px 60px rgba(255, 159, 64, 0.18);
 }
 
+
 .video-card-glow {
 	content: "";
 	position: absolute;
@@ -85,10 +86,6 @@
 	opacity: 0;
 	transition: opacity 0.5s ease;
 	pointer-events: none;
-}
-
-.video-card:hover .video-card-glow {
-	opacity: 1;
 }
 
 .video-media {
@@ -162,5 +159,310 @@
 
 	.video-player {
 		height: 16rem;
+	}
+}
+
+/* Collection (Sacred Collections) premium styles */
+.collection-card {
+	border-radius: 2.5rem;
+	/* matches existing rounded-[2.5rem] */
+	overflow: hidden;
+	transition: transform 0.6s cubic-bezier(.2, .9, .2, 1), box-shadow 0.6s ease;
+	will-change: transform;
+	box-shadow: 0 10px 30px rgba(15, 15, 15, 0.06);
+	border: 1px solid rgba(255, 255, 255, 0.03);
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.02));
+}
+
+.collection-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 22px 70px rgba(15, 10, 5, 0.12);
+}
+
+.collection-overlay {
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.45) 40%, rgba(0, 0, 0, 0.7) 100%);
+	backdrop-filter: blur(6px);
+	z-index: 20;
+	/* ensure text sits above image */
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 2rem;
+	/* ensure readable spacing */
+}
+
+.collection-title {
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.collection-desc {
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 0.95rem;
+	line-height: 1.45;
+	max-width: 28rem;
+}
+
+/* Disabled automatic overlays and image transforms to preserve exact image appearance
+	 Important: images must remain unchanged (no scale/filter/overlay). */
+.collection-card::after {
+	/* overlays intentionally removed to keep image pixels identical */
+	content: '';
+	display: none;
+}
+
+/* Ensure images stay exactly as authored. Only object-fit is applied. */
+.collection-card img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	transform-origin: center center;
+}
+
+/* No image scaling on hover — card moves only (see .sacred-collection-card) */
+
+/* Sacred Collections safe text and card-only hover tweaks (image untouched) */
+.sacred-card-title {
+	color: #ffffff;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.sacred-card-desc {
+	color: rgba(255, 255, 255, 0.92);
+	margin-top: 0.25rem;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, 0.32);
+}
+
+.sacred-collection-card {
+	border-radius: 16px;
+	/* 16px rounded corners */
+	box-shadow: 0 8px 24px rgba(15, 15, 15, 0.06);
+	transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.sacred-collection-card:hover {
+	transform: translateY(-3px);
+	/* gentle lift */
+	box-shadow: 0 20px 64px rgba(15, 10, 5, 0.12);
+}
+
+/* Testimonials / Trusted section styling */
+.testimonials-section {
+	background-image: linear-gradient(180deg, #0f0f0f 0%, #14100d 40%, #24120a 100%);
+}
+
+.testimonials-quote {
+	filter: none;
+	/* ensure icon colors controlled via fill */
+	color: #ffb84d;
+	/* warm gold */
+	text-shadow: 0 6px 24px rgba(255, 184, 70, 0.08);
+}
+
+.testimonials-heading {
+	color: rgba(255, 255, 255, 0.96);
+	font-size: 2.9rem;
+	/* slightly larger */
+	line-height: 1.03;
+	letter-spacing: 0.02em;
+	margin-bottom: 1.25rem;
+}
+
+.testimonials-list>.testimonial-card {
+	margin-bottom: 0.9rem;
+}
+
+.testimonial-card {
+	background: rgba(255, 255, 255, 0.04);
+	/* white/5 glass */
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	border-radius: 1rem;
+	/* rounded-2xl */
+	box-shadow: 0 10px 30px rgba(2, 6, 23, 0.4);
+	transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.testimonial-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 28px 80px rgba(2, 6, 23, 0.55);
+}
+
+.testimonial-card p {
+	color: #d1d5db;
+	/* text-gray-300 */
+	line-height: 1.6;
+}
+
+.testimonial-card .font-semibold,
+.testimonial-card .font-bold {
+	color: #ffffff;
+}
+
+.testimonial-stars svg {
+	color: #ffb84d;
+	margin-left: 2px;
+}
+
+.testimonial-stars svg:first-child {
+	margin-left: 0;
+}
+
+.testimonials-image {
+	border-radius: 1rem;
+	/* rounded-2xl */
+	box-shadow: 0 18px 60px rgba(255, 140, 55, 0.08);
+	/* soft orange-tint glow */
+	border: 1px solid rgba(255, 183, 73, 0.06);
+}
+
+.testimonials-image-glow {
+	background: radial-gradient(closest-side, rgba(255, 168, 64, 0.08), rgba(255, 168, 64, 0.0));
+	filter: blur(24px);
+}
+
+/* Keep overlay text above all visuals */
+.collection-overlay .collection-title,
+.collection-overlay .collection-desc {
+	position: relative;
+	z-index: 30;
+}
+
+/* Contact page enhancements (visual only) */
+.contact-title {
+	background: linear-gradient(90deg, #d69e4a 0%, #ff7a00 60%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	letter-spacing: 0.02em;
+}
+
+.contact-subtitle {
+	color: #6b7280;
+	margin-top: 0.25rem;
+}
+
+.contact-card {
+	background: rgba(255, 255, 255, 0.58);
+	backdrop-filter: blur(10px) saturate(120%);
+	-webkit-backdrop-filter: blur(10px) saturate(120%);
+	border-radius: 20px;
+	border: 1px solid rgba(255, 183, 73, 0.12);
+	box-shadow: 0 14px 50px rgba(15, 10, 5, 0.08);
+	position: relative;
+	overflow: visible;
+}
+
+/* Contact form card (right column) */
+.contact-form-card {
+	background: #ffffff;
+	border-radius: 12px;
+	box-shadow: 0 8px 30px rgba(15, 15, 15, 0.06);
+	padding: 1.25rem;
+}
+
+.input-icon {
+	position: absolute;
+	left: 14px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #9ca3af;
+	pointer-events: none;
+	opacity: 0.95;
+}
+
+.contact-input {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	/* px-4 py-3 */
+	background: #ffffff;
+	border: 1px solid #d1d5db;
+	/* gray-300 */
+	border-radius: 8px;
+	/* rounded-lg */
+	transition: box-shadow 200ms ease, transform 120ms ease, border-color 200ms ease;
+	outline: none;
+}
+
+.contact-input:focus {
+	border-color: #fb923c;
+	/* orange-400 */
+	box-shadow: 0 6px 18px rgba(251, 146, 60, 0.08);
+}
+
+.contact-textarea {
+	width: 100%;
+	min-height: 160px;
+	padding: 0.75rem 1rem;
+	background: #ffffff;
+	border: 1px solid #d1d5db;
+	/* gray-300 */
+	border-radius: 8px;
+	transition: box-shadow 200ms ease, border-color 200ms ease;
+	outline: none;
+}
+
+.contact-textarea:focus {
+	border-color: #fb923c;
+	/* orange-400 */
+	box-shadow: 0 6px 18px rgba(251, 146, 60, 0.08);
+}
+
+.contact-button {
+	background: linear-gradient(90deg, #fb923c 0%, #fb7a20 100%);
+	/* orange gradient */
+	color: #ffffff;
+	padding: 0.75rem 1rem;
+	border-radius: 8px;
+	/* rounded-lg */
+	font-weight: 700;
+	width: 100%;
+	border: none;
+	box-shadow: 0 8px 28px rgba(251, 146, 60, 0.08);
+	transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.contact-button:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 18px 48px rgba(251, 146, 60, 0.14);
+}
+
+/* Page background and soft radial behind form */
+.contact-page {
+	background: linear-gradient(180deg, #ffffff 0%, #fffaf0 40%, #fff3e6 100%);
+}
+
+.contact-card::before {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: -120px;
+	transform: translateX(-50%);
+	width: 560px;
+	height: 240px;
+	background: radial-gradient(closest-side, rgba(255, 186, 102, 0.12), rgba(255, 186, 102, 0.02));
+	filter: blur(40px);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.contact-card>* {
+	position: relative;
+	z-index: 10;
+}
+
+@media (max-width: 768px) {
+	.input-icon {
+		left: 12px;
+	}
+
+	.contact-input,
+	.contact-textarea {
+		padding-left: 2.75rem;
 	}
 }

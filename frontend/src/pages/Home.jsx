@@ -158,19 +158,20 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
           {[
             { name: 'Pooja Items', desc: 'Daily ritual essentials', img: 'https://wemy.in/cdn/shop/files/IMG-20241230-WA0079.jpg?v=1755682186', link: 'items' },
             { name: 'Pooja Kits', desc: 'Complete ceremony sets', img: 'https://servdharm.com/cdn/shop/files/SampoornPoojaSamagriKit_3_2400x.png?v=1712585276', link: 'kits' },
-            { name: 'Pandit Booking', desc: 'Verified Vedic scholars', img: 'https://ompoojapath.com/storage/about/about_us.jpg', link: 'pandits' },
+            { name: 'Book Pandit Ji ', desc: 'Authentic Vedic rituals at your home', img: 'https://ompoojapath.com/storage/about/about_us.jpg', link: 'pandits' },
             { name: 'Consultation', desc: 'Spiritual guidance', img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', link: 'contact' },
           ].map((cat, i) => (
             <motion.div
               key={`offering-${i}`}
-              whileHover={{ y: -10 }}
+              whileHover={{ y: -3 }}
               onClick={() => onNavigate(cat.link)}
-              className="relative h-80 rounded-[2.5rem] overflow-hidden cursor-pointer group shadow-lg"
+              className="relative h-80 rounded-2xl overflow-hidden cursor-pointer group shadow-md transition-transform duration-300 sacred-collection-card"
             >
-              <img src={cat.img} alt={cat.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
-              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
-                <h3 className="text-2xl font-bold text-white mb-1">{cat.name}</h3>
-                <p className="text-white/70 text-sm">{cat.desc}</p>
+              <img src={cat.img} alt={cat.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+
+              <div className="absolute inset-0 flex flex-col justify-end p-8 pointer-events-none">
+                <h3 className="text-2xl font-bold sacred-card-title mb-1">{cat.name}</h3>
+                <p className="sacred-card-desc text-sm">{cat.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -222,24 +223,24 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
       <PujaVidhiCarousel />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#1a1a1a] rounded-[3.5rem] p-10 md:p-14 relative overflow-hidden">
+        <div className="bg-[#1a1a1a] rounded-[3.5rem] p-10 md:p-14 relative overflow-hidden testimonials-section">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6F00]/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl" />
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-14 items-center">
             <div className="text-white">
-              <Quote size={80} className="mb-8 text-[#FF6F00] opacity-50" />
-              <h2 className="text-5xl font-bold mb-10 leading-tight">Trusted by <br />Thousands of <br />Devotees</h2>
+              <Quote size={88} className="mb-8 text-[#FF9933] opacity-80 testimonials-quote" />
+              <h2 className="text-5xl font-bold mb-10 leading-tight testimonials-heading">Trusted by <br />Thousands of <br />Devotees</h2>
               <div className="space-y-7">
                 {[
                   { name: 'Amit Verma', text: "The Satyanarayan Pooja kit was so complete, we didn't have to run for anything at the last minute. Highly recommended!", rating: 5 },
                   { name: 'Priya Singh', text: 'The Pandit we booked was very knowledgeable and explained every mantra. A truly spiritual experience.', rating: 5 },
                 ].map((t, i) => (
-                  <div key={`testimonial-${i}`} className="bg-white/5 backdrop-blur-md p-8 rounded-4xl border border-white/10">
+                  <div key={`testimonial-${i}`} className="testimonial-card bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 transition-all duration-300">
                     <p className="text-xl italic mb-6 leading-relaxed text-gray-300">"{t.text}"</p>
                     <div className="flex justify-between items-center">
-                      <span className="font-bold text-lg">{t.name}</span>
-                      <div className="flex text-[#FF9933]">
+                      <span className="font-semibold text-lg text-white">{t.name}</span>
+                      <div className="flex testimonial-stars text-[#FF9933]">
                         {[...Array(t.rating)].map((_, i) => (
-                          <Star key={`star-${i}`} size={18} fill="currentColor" />
+                          <Star key={`star-${i}`} size={20} fill="currentColor" />
                         ))}
                       </div>
                     </div>
@@ -249,11 +250,11 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
             </div>
             <div className="hidden lg:block">
               <div className="relative">
-                <div className="absolute -inset-4 bg-linear-to-tr from-[#FF6F00] to-[#FF9933] rounded-[3rem] blur-2xl opacity-30 animate-pulse" />
+                <div className="absolute -inset-4 rounded-[3rem] opacity-30 animate-pulse testimonials-image-glow" />
                 <img
                   src="https://images.unsplash.com/photo-1561489413-985b06da5bee?auto=format&fit=crop&q=80&w=800"
                   alt="Devotion"
-                  className="relative rounded-[3rem] shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700"
+                  className="relative testimonials-image rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />
               </div>
