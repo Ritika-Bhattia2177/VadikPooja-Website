@@ -14,7 +14,7 @@ export function register(req, res) {
       return res.status(500).json({ error: err.message });
     }
 
-    // 🔹 If user already exists
+    
     if (result.length > 0) {
       const user = result[0];
 
