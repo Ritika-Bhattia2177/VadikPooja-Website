@@ -26,7 +26,8 @@ export default function HoroscopePage() {
       setProkeralaError('');
       setProkeralaData(null);
       try {
-        const res = await fetch(`/api/horoscope/prokerala?sign=${sign}&type=general`);
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const res = await fetch(`${apiUrl}/api/horoscope/prokerala?sign=${sign}&type=general`);
         if (!res.ok) {
           const text = await res.text();
           throw new Error(text || 'Failed to fetch Prokerala horoscope');
