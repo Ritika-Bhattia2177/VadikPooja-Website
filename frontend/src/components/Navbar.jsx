@@ -38,9 +38,9 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
           <div className="hidden lg:flex items-center space-x-14 ml-10">
             {[
               { name: 'Home', path: 'home' },
-              { name: 'Sacred Items', path: 'items' },
-              { name: 'Ritual Kits', path: 'kits' },
-              { name: 'Book Pandit', path: 'pandits' },
+              { name: 'Pooja Items', path: 'items' },
+              { name: 'Pooja Kits', path: 'kits' },
+              { name: 'Booking Pandit Ji', path: 'pandits' },
               { name: 'Horoscope', path: 'horoscope' },
               { name: 'Panchang', path: 'panchang' },
               { name: 'Contact', path: 'contact' },
@@ -59,9 +59,6 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
 
           {/* Action Icons - Clean Utility */}
           <div className="flex items-center space-x-7">
-            <button className="p-2 text-white/50 hover:text-[#FF9933] transition-colors">
-              <Search size={18} />
-            </button>
             
             {user ? (
               <div className="relative group flex items-center">
@@ -124,9 +121,9 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
           <div className="flex flex-col items-center space-y-8">
             {[
               { name: 'Home', path: 'home' },
-              { name: 'Sacred Items', path: 'items' },
-              { name: 'Ritual Kits', path: 'kits' },
-              { name: 'Book Pandit', path: 'pandits' },
+              { name: 'Pooja Items', path: 'items' },
+              { name: 'Pooja Kits', path: 'kits' },
+              { name: 'Booking Pandit Ji', path: 'pandits' },
               { name: 'Horoscope', path: 'horoscope' },
               { name: 'Panchang', path: 'panchang' },
               { name: 'Contact', path: 'contact' },
