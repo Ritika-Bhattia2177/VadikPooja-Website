@@ -9,6 +9,7 @@ import KitsPage from './pages/Kits.jsx';
 import PanditsPage from './pages/Pandits.jsx';
 import ContactPage from './pages/Contact.jsx';
 import HoroscopePage from './pages/Horoscope.jsx';
+import PanchangPage from './pages/Panchang.jsx';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 
@@ -200,6 +201,7 @@ export default function App() {
           <Route path="/kits" element={<KitsPage kits={kits} onAddToCart={addKitToCart} />} />
           <Route path="/pandits" element={<PanditsPage pandits={pandits} onBook={setBookingPandit} />} />
           <Route path="/horoscope" element={<HoroscopePage />} />
+          <Route path="/panchang" element={<PanchangPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

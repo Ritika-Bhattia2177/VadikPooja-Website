@@ -11,6 +11,7 @@ import panditRoutes from './routes/panditRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import horoscopeRoutes from './routes/horoscopeRoutes.js';
+import panchangRoutes from './routes/panchangRoutes.js';
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use('/api/pandits', panditRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/horoscope', horoscopeRoutes);
+app.use('/api/panchang', panchangRoutes);
 
 // Initialize DB tables if they don't exist
 initTables();
