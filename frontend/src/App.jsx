@@ -40,10 +40,11 @@ export default function App() {
 
     const loadData = async () => {
       try {
+        const apiUrl = import.meta.env.VITE_API_URL;
         const [prodRes, kitRes, panditRes] = await Promise.all([
-          fetch('/api/products'),
-          fetch('/api/kits'),
-          fetch('/api/pandits')
+          fetch(`${apiUrl}/api/products`),
+          fetch(`${apiUrl}/api/kits`),
+          fetch(`${apiUrl}/api/pandits`)
         ]);
 
         const responses = [prodRes, kitRes, panditRes];

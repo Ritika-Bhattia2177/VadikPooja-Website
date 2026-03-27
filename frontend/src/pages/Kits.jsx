@@ -13,7 +13,8 @@ export default function KitsPage({ onAddToCart }) {
     const fetchKits = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/ritual-kits');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/api/ritual-kits`);
         
         if (!response.ok) {
           throw new Error(`Error fetching kits: ${response.status}`);
