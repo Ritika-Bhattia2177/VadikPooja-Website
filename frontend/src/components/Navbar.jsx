@@ -37,6 +37,7 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
           <div className="hidden lg:flex items-center space-x-14 ml-10">
             {[
               { name: 'Home', path: 'home' },
+              { name: 'Poojas', path: 'poojas' },
               { name: 'Pooja Items', path: 'items' },
               { name: 'Pooja Kits', path: 'kits' },
               { name: 'Booking Pandit Ji', path: 'pandits' },
@@ -120,6 +121,7 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
           <div className="flex flex-col items-center space-y-8">
             {[
               { name: 'Home', path: 'home' },
+              { name: 'Poojas', path: 'poojas' },
               { name: 'Pooja Items', path: 'items' },
               { name: 'Pooja Kits', path: 'kits' },
               { name: 'Booking Pandit Ji', path: 'pandits' },
