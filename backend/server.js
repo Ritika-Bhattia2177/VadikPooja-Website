@@ -12,6 +12,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import horoscopeRoutes from './routes/horoscopeRoutes.js';
 import panchangRoutes from './routes/panchangRoutes.js';
+import poojaRoutes from './routes/poojaRoutes.js';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/horoscope', horoscopeRoutes);
 app.use('/api/panchang', panchangRoutes);
+app.use('/api/poojas', poojaRoutes);
 
 // Initialize DB tables if they don't exist
 initTables();

@@ -6,10 +6,13 @@ import Auth from './components/Auth';
 import HomePage from './pages/Home.jsx';
 import ItemsPage from './pages/Items.jsx';
 import KitsPage from './pages/Kits.jsx';
+import PoojaList from './pages/PoojaList.jsx';
+import PoojaDetails from './pages/PoojaDetails.jsx';
 import PanditsPage from './pages/Pandits.jsx';
 import ContactPage from './pages/Contact.jsx';
 import HoroscopePage from './pages/Horoscope.jsx';
 import PanchangPage from './pages/Panchang.jsx';
+import WhatsAppButton from './components/WhatsAppButton.jsx';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 export default function App() {
@@ -97,6 +100,8 @@ export default function App() {
         <Route path="/items" element={<ItemsPage products={products} onAddToCart={addToCart} />} />
         <Route path="/kits" element={<KitsPage kits={kits} onAddToCart={addKitToCart} />} />
         <Route path="/pandits" element={<PanditsPage pandits={pandits} />} />
+        <Route path="/poojas" element={<PoojaList />} />
+        <Route path="/pooja/:id" element={<PoojaDetails />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/horoscope" element={<HoroscopePage />} />
         <Route path="/panchang" element={<PanchangPage />} />
@@ -104,6 +109,7 @@ export default function App() {
       </Routes>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }
