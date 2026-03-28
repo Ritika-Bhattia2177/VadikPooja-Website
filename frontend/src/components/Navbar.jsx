@@ -12,7 +12,7 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md bg-[rgba(10,5,2,0.92)] border-white/10 py-3 md:py-4 transition-colors"
+      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md bg-[#FF9933] border-white/10 py-3 md:py-4 transition-colors"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center">
@@ -23,14 +23,13 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAuth, user, onLogo
             onClick={() => handleNavClick('home')}
           >
             <div className="relative">
-              <div className="w-10 h-10 border border-[#FF6F00] rounded-full flex items-center justify-center text-[#FF6F00] font-serif italic text-lg mr-3 group-hover:bg-[#FF6F00] group-hover:text-white transition-all duration-500">
-                VP
+              <div className="w-12 h-12 border-2 border-[#FF6F00] rounded-full flex items-center justify-center mr-3 overflow-hidden bg-transparent">
+                <img src="/logo.png" alt="Logo" className="w-full h-full object-cover rounded-full" />
               </div>
-              <div className="absolute -inset-1 border border-[#FF6F00]/20 rounded-full scale-0 group-hover:scale-110 transition-transform duration-500" />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-serif tracking-[0.2em] uppercase text-white leading-none">Vaidik</span>
-              <span className="text-[10px] tracking-[0.4em] uppercase text-[#FF9933] font-bold mt-1">Pooja</span>
+              <span className="text-[10px] tracking-[0.4em] uppercase font-bold mt-1">Pooja</span>
             </div>
           </Link>
 
