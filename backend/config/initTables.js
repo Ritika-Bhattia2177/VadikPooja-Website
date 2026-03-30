@@ -66,6 +66,22 @@ const queries = [
     PRIMARY KEY (id)
   ) ENGINE=InnoDB;`,
 
+  `CREATE TABLE IF NOT EXISTS contacts (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) DEFAULT NULL,
+    phone VARCHAR(50) DEFAULT NULL,
+    preferred_contact_method VARCHAR(50) DEFAULT NULL,
+    request_callback TINYINT DEFAULT 0,
+    callback_date DATE DEFAULT NULL,
+    callback_time TIME DEFAULT NULL,
+    subject VARCHAR(255) DEFAULT NULL,
+    message TEXT,
+    urgency VARCHAR(20) DEFAULT 'normal',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+  ) ENGINE=InnoDB;`,
+
   `CREATE TABLE IF NOT EXISTS poojas (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -107,6 +123,40 @@ export default async function initTables() {
     } catch (err) {
       if (err?.message?.includes('Duplicate column')) continue;
       console.error('Error altering table:', err?.message || err);
+    }
+  }
+
+  // Ensure contacts table has callback columns (in case table existed prior to adding them)
+  // Add contact columns only if they don't exist to avoid duplicate-column errors
+  async function columnExists(table, column) {
+    try {
+      const rows = await query(
+        `SELECT COUNT(*) AS cnt FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?`,
+        [process.env.DB_NAME, table, column]
+      );
+      return rows && rows[0] && (rows[0].cnt || rows[0].CNT || Object.values(rows[0])[0]) > 0;
+    } catch (err) {
+      // If information_schema query fails, return false so ALTER will be attempted and caught below
+      return false;
+    }
+  }
+
+  const contactColumns = [
+    { name: 'callback_date', sql: `ALTER TABLE contacts ADD COLUMN callback_date DATE;` },
+    { name: 'callback_time', sql: `ALTER TABLE contacts ADD COLUMN callback_time TIME;` }
+  ];
+
+  for (const col of contactColumns) {
+    try {
+      const exists = await columnExists('contacts', col.name);
+      if (exists) continue;
+      await query(col.sql);
+    } catch (err) {
+      // Ignore duplicate/exists errors but log unexpected ones
+      if (err?.message?.toLowerCase().includes('duplicate column') || err?.message?.toLowerCase().includes('already exists')) {
+        continue;
+      }
+      console.error('Error altering contacts table:', err?.message || err);
     }
   }
 

@@ -3,6 +3,11 @@
 @layer base {
 	body {
 		overflow-x: hidden;
+		/* subtle warm background to match site branding */
+		background-color: #fffaf5;
+		background-image: radial-gradient(1200px 600px at 8% 8%, rgba(255,111,0,0.06), transparent 18%), linear-gradient(180deg, #fffaf5 0%, #fff7ed 45%, #ffffff 100%);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
 	}
 }
 
