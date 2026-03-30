@@ -1,41 +1,96 @@
-import { motion } from 'motion/react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Star, Users, Quote } from 'lucide-react';
 import ProductCard from '../components/ProductCard.jsx';
 import HowItWorks from '../components/HowItWorks.jsx';
 import PujaVidhiCarousel from '../components/PujaVidhiCarousel.jsx';
 
+// ── Hero Image Slider (moved outside HomePage) ──────────────────────────────
+function HeroImageSlider() {
+  const images = [
+    '/heroImages/hand-holding-navratri-highly-detailed-decoration.webp',
+    '/heroImages/Artboard_1_copy_1.webp',
+    '/heroImages/360_F_729701664_MTgAAe4jU3T9wTfN49lqn1S3anZI6SDl.jpg',
+  ];
+
+  // Append clone of first image at end: [img0, img1, img2, img0-clone]
+  const slides = [...images, images[0]];
+  const total = slides.length;
+
+  const [index, setIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setIndex((prev) => prev + 1);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // When we land on the clone (index === total-1), silently jump back to index 0
+  useEffect(() => {
+    if (index === total - 1) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(0);
+      }, 700); // match transition duration
+      return () => clearTimeout(timer);
+    }
+  }, [index, total]);
+
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden">
+      <div
+        className="flex h-full"
+        style={{
+          width: `${total * 100}%`,
+          transform: `translateX(-${(index * 100) / total}%)`,
+          transition: isTransitioning ? 'transform 700ms ease-in-out' : 'none',
+        }}
+      >
+        {slides.map((src, i) => (
+          <div key={i} style={{ width: `${100 / total}%` }} className="h-full shrink-0">
+            <img src={src} alt="" className="w-full h-full object-cover" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── HomePage ─────────────────────────────────────────────────────────────────
 export default function HomePage({ products, onAddToCart, onNavigate }) {
   return (
     <div className="space-y-10 md:space-y-14 pb-10 md:pb-14">
-      <section className="relative min-h-screen flex items-center bg-[#4a2f22] pt-20 md:pt-28">
-        <div className="absolute inset-0 z-0">
-          <div
-            className="w-full h-full"
-            style={{
-              // Simple warm gradient background (static, no animation)
-              backgroundImage: 'linear-gradient(120deg, #a3461e 0%, #e25a1c 42%, #f8a033 72%, #ffc14d 100%)'
-            }}
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-[#3a1c13]" />
-          <div className="absolute inset-0 bg-linear-to-r from-black/30 via-black/8 to-transparent" />
-        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-14 items-center">
+      {/* ── Hero ── */}
+      <section className="relative min-h-screen flex items-center pt-20 md:pt-28 overflow-hidden">
+        {/* Full-screen sliding background images */}
+        <HeroImageSlider />
+
+        {/* Overlays for readability */}
+        <div className="absolute inset-0 z-10 bg-linear-to-b from-black/50 via-black/30 to-black/60" />
+        <div className="absolute inset-0 z-10 bg-linear-to-r from-black/60 via-black/20 to-transparent" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
+          <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: 'easeOut' }}
             >
               <div className="flex items-center space-x-4 mb-8">
-                <div className="w-12 h-1px bg-[#FF9933]" />
-                <span className="text-[#FF9933] font-bold tracking-[0.4em] uppercase text-[10px]">The Essence of Vedic Wisdom</span>
+                <div className="w-12 h-px bg-[#FF9933]" />
+                <span className="text-[#FF9933] font-bold tracking-[0.4em] uppercase text-[10px]">
+                  The Essence of Vedic Wisdom
+                </span>
               </div>
-              <h1 className="text-6xl md:text-[96px] font-bold  text-[#FF9933] mb-6 leading-[0.95] tracking-tighter pr-4 md:pr-10">
+              <h1 className="text-6xl md:text-[96px] font-bold text-[#FF9933] mb-6 leading-[0.95] tracking-tighter">
                 Sacred<br />
-                <span className="text-white bg-clip-text">Rituals</span>
+                <span className="text-white">Rituals</span>
               </h1>
-              <p className="text-xl text-white/60 mb-6 leading-relaxed font-light max-w-lg">
+              <p className="text-xl text-white/70 mb-8 leading-relaxed font-light max-w-lg">
                 Elevate your spiritual practice with authentic Vedic essentials, curated for the modern seeker of peace, divinity, and ancient wisdom.
               </p>
               <div className="flex flex-wrap gap-6">
@@ -44,7 +99,10 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
                   className="group relative px-10 py-5 bg-[#FF6F00] text-white font-bold rounded-full overflow-hidden transition-all hover:pr-14 hover:bg-[#FF9933] shadow-2xl shadow-orange-900/40"
                 >
                   <span className="relative z-10">Explore Collection</span>
-                  <ArrowRight className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300" size={20} />
+                  <ArrowRight
+                    className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    size={20}
+                  />
                 </button>
                 <button
                   onClick={() => onNavigate('pandits')}
@@ -54,30 +112,6 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
                 </button>
               </div>
             </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1.5, delay: 0.3, ease: 'easeOut' }}
-              className="hidden lg:block relative"
-            >
-              <div className="relative z-10 w-full aspect-square rounded-full border border-white/5 p-16 animate-[spin_120s_linear_infinite]">
-                <div className="w-full h-full rounded-full border border-white/10 border-dashed" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-[85%] h-[85%] rounded-full overflow-hidden border-12 border-white/5 shadow-2xl relative group">
-                  <img
-                    src="https://merkabasacred.com/cdn/shop/articles/daily-sacred-rituals.jpg?v=1644712907&width=1200"
-                    alt="Sacred Rituals"
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-tr from-[#FF6F00]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                </div>
-              </div>
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF6F00]/10 rounded-full blur-3xl animate-pulse" />
-              <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-[#FF9933]/10 rounded-full blur-3xl animate-pulse delay-1000" />
-            </motion.div>
           </div>
         </div>
 
@@ -85,13 +119,14 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/20"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/40 z-20"
         >
           <span className="text-[9px] uppercase tracking-[0.4em] mb-4 font-bold">Scroll to Discover</span>
-          <div className="w-px h-16 bg-linear-to-b from-white/20 to-transparent" />
+          <div className="w-px h-16 bg-linear-to-b from-white/40 to-transparent" />
         </motion.div>
       </section>
 
+      {/* ── Feature Cards ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-9">
           {[
@@ -115,23 +150,21 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
+      {/* ── Videos ── */}
       <section className="video-section">
         <div className="video-section-header">
           <span className="video-section-tag">Featured Videos</span>
           <h2 className="video-section-title">Hindu Worship Videos</h2>
-          <p className="video-section-subtitle">Immerse in serene chants, sacred rituals, and divine moments captured for your spiritual journey.</p>
+          <p className="video-section-subtitle">
+            Immerse in serene chants, sacred rituals, and divine moments captured for your spiritual journey.
+          </p>
         </div>
         <div className="video-grid">
-          {[{
-            src: '/videos/video1.mp4',
-            title: 'Divine Morning Aarti'
-          }, {
-            src: '/videos/video2.mp4',
-            title: 'Abhishekam Ritual Blessings'
-          }, {
-            src: '/videos/video3.mp4',
-            title: 'Evening Temple Darshan'
-          }].map((video, i) => (
+          {[
+            { src: '/videos/video1.mp4', title: 'Divine Morning Aarti' },
+            { src: '/videos/video2.mp4', title: 'Abhishekam Ritual Blessings' },
+            { src: '/videos/video3.mp4', title: 'Evening Temple Darshan' },
+          ].map((video, i) => (
             <div key={`video-${i}`} className="video-card">
               <div className="video-card-glow" />
               <div className="video-media">
@@ -148,6 +181,7 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
+      {/* ── Sacred Collections ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 md:mb-10">
           <span className="text-[#FF6F00] font-bold tracking-widest uppercase text-sm">Our Offerings</span>
@@ -158,7 +192,7 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
           {[
             { name: 'Pooja Items', desc: 'Daily ritual essentials', img: 'https://wemy.in/cdn/shop/files/IMG-20241230-WA0079.jpg?v=1755682186', link: 'items' },
             { name: 'Pooja Kits', desc: 'Complete ceremony sets', img: 'https://servdharm.com/cdn/shop/files/SampoornPoojaSamagriKit_3_2400x.png?v=1712585276', link: 'kits' },
-            { name: 'Book Pandit Ji ', desc: 'Authentic Vedic rituals at your home', img: 'https://ompoojapath.com/storage/about/about_us.jpg', link: 'pandits' },
+            { name: 'Book Pandit Ji', desc: 'Authentic Vedic rituals at your home', img: 'https://ompoojapath.com/storage/about/about_us.jpg', link: 'pandits' },
             { name: 'Consultation', desc: 'Spiritual guidance', img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', link: 'contact' },
           ].map((cat, i) => (
             <motion.div
@@ -168,7 +202,6 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
               className="relative h-80 rounded-2xl overflow-hidden cursor-pointer group shadow-md transition-transform duration-300 sacred-collection-card"
             >
               <img src={cat.img} alt={cat.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-
               <div className="absolute inset-0 flex flex-col justify-end p-8 pointer-events-none">
                 <h3 className="text-2xl font-bold sacred-card-title mb-1">{cat.name}</h3>
                 <p className="sacred-card-desc text-sm">{cat.desc}</p>
@@ -178,6 +211,7 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
+      {/* ── Best Sellers ── */}
       <section className="bg-white py-10 md:py-14 border-y border-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-6">
@@ -185,7 +219,10 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
               <span className="text-[#FF6F00] font-bold tracking-widest uppercase text-sm">Best Sellers</span>
               <h2 className="text-4xl font-bold text-gray-800 mt-2">Popular Essentials</h2>
             </div>
-            <button onClick={() => onNavigate('items')} className="bg-orange-50 text-[#FF6F00] px-6 py-3 rounded-xl font-bold flex items-center hover:bg-orange-100 transition-all">
+            <button
+              onClick={() => onNavigate('items')}
+              className="bg-orange-50 text-[#FF6F00] px-6 py-3 rounded-xl font-bold flex items-center hover:bg-orange-100 transition-all"
+            >
               View Entire Collection <ArrowRight size={18} className="ml-2" />
             </button>
           </div>
@@ -197,10 +234,13 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
         </div>
       </section>
 
+      {/* ── How It Works Steps ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">Your Spiritual Journey</h2>
-          <p className="text-gray-500 max-w-2xl mx-auto">Three simple steps to bring divinity and peace to your home ceremonies.</p>
+          <p className="text-gray-500 max-w-2xl mx-auto">
+            Three simple steps to bring divinity and peace to your home ceremonies.
+          </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 relative">
           <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-orange-100 -translate-y-1/2 z-0" />
@@ -222,25 +262,31 @@ export default function HomePage({ products, onAddToCart, onNavigate }) {
 
       <PujaVidhiCarousel />
 
+      {/* ── Testimonials ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#1a1a1a] rounded-[3.5rem] p-10 md:p-14 relative overflow-hidden testimonials-section">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6F00]/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl" />
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-14 items-center">
             <div className="text-white">
               <Quote size={88} className="mb-8 text-[#FF9933] opacity-80 testimonials-quote" />
-              <h2 className="text-5xl font-bold mb-10 leading-tight testimonials-heading">Trusted by <br />Thousands of <br />Devotees</h2>
+              <h2 className="text-5xl font-bold mb-10 leading-tight testimonials-heading text-[#FF9900]">
+                Trusted by <br />Thousands of <br />Devotees
+              </h2>
               <div className="space-y-7">
                 {[
                   { name: 'Amit Verma', text: "The Satyanarayan Pooja kit was so complete, we didn't have to run for anything at the last minute. Highly recommended!", rating: 5 },
                   { name: 'Priya Singh', text: 'The Pandit we booked was very knowledgeable and explained every mantra. A truly spiritual experience.', rating: 5 },
                 ].map((t, i) => (
-                  <div key={`testimonial-${i}`} className="testimonial-card bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 transition-all duration-300">
+                  <div
+                    key={`testimonial-${i}`}
+                    className="testimonial-card bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 transition-all duration-300"
+                  >
                     <p className="text-xl italic mb-6 leading-relaxed text-gray-300">"{t.text}"</p>
                     <div className="flex justify-between items-center">
                       <span className="font-semibold text-lg text-white">{t.name}</span>
                       <div className="flex testimonial-stars text-[#FF9933]">
-                        {[...Array(t.rating)].map((_, i) => (
-                          <Star key={`star-${i}`} size={20} fill="currentColor" />
+                        {[...Array(t.rating)].map((_, j) => (
+                          <Star key={`star-${i}-${j}`} size={20} fill="currentColor" />
                         ))}
                       </div>
                     </div>
