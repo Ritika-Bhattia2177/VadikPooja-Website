@@ -1,3 +1,6 @@
+.testimonials-heading.text-\[\#FF9900\] {
+	color: #FF9900 !important;
+}
 @import "tailwindcss";
 
 @layer base {
@@ -257,7 +260,8 @@
 
 /* Testimonials / Trusted section styling */
 .testimonials-section {
-	background-image: linear-gradient(180deg, #0f0f0f 0%, #14100d 40%, #24120a 100%);
+	background-image: none;
+	background-color: #FFF5eb;
 }
 
 .testimonials-quote {
@@ -299,14 +303,14 @@
 }
 
 .testimonial-card p {
-	color: #d1d5db;
+	color: #222222;
 	/* text-gray-300 */
 	line-height: 1.6;
 }
 
 .testimonial-card .font-semibold,
 .testimonial-card .font-bold {
-	color: #ffffff;
+color: #111111;
 }
 
 .testimonial-stars svg {
