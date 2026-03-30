@@ -241,7 +241,7 @@ export default function App() {
       />
 
       <Routes>
-        <Route path="/" element={<HomePage products={products} onAddToCart={addToCart} />} />
+        <Route path="/" element={<HomePage products={products} onAddToCart={addToCart} onNavigate={(path) => { if (path === 'home') return navigate('/'); navigate(path === 'home' ? '/' : `/${path}`); }} />} />
         <Route path="/items" element={<ItemsPage products={products} onAddToCart={addToCart} />} />
         <Route path="/kits" element={<KitsPage kits={kits} onAddToCart={addKitToCart} />} />
         <Route path="/pandits" element={<PanditsPage pandits={pandits} />} />
